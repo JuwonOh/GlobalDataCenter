@@ -34,7 +34,8 @@ for (i in 1:length(folders_list)) {
   # }
     for (j in 1:length(files_list)) {
       data <- fromJSON(paste0(files_loc, files_list[j]), flatten=TRUE)
-      data <- melt(data) %>% mutate(id = row_number(), source = sources[i])
+      data$author <- paste(data$author, collapse=", ")
+      data <- melt(data) %>% mutate(id = j, source = sources[i])
       colnames(data)[2] <- "key"
       data <- data[c("id","key","value","source")]
       all_data <- rbind(all_data, data)
@@ -43,8 +44,9 @@ for (i in 1:length(folders_list)) {
 }
 
 unique(all_data$key)
-all_data$key <- recode(all_data$key, headline = "title",
-                       content_url = "url",
+all_data$key <- recode(all_data$key, 
+                       # headline = "title",
+                       # content_url = "url",
                        time = "date",
                        blog_category = "category_type",
                        tag = "category_tag",
@@ -53,6 +55,7 @@ all_data$key <- recode(all_data$key, headline = "title",
 unique(all_data$key)
 unique(all_data$source)
 
+# synchronize date format
 for (i in 1:nrow(all_data)) {
   if (all_data$key[i]=="date") {
     all_data$value[i] <- format(as.Date(all_data$value[i], tryFormats=c("%A, %B %d, %Y", "%B %d, %Y",
@@ -60,6 +63,9 @@ for (i in 1:nrow(all_data)) {
                                                                         "%Y%m%d", "%m/%d/%Y", "%B %d")))
   }
 }
+all_data <- all_data %>% arrange(source, id, key)
+
+# all_data  %>% spread(key="key", value="value")
 
 # brookings, cnas, crs, wilsoncenter include pdf
 library(pdftools)
