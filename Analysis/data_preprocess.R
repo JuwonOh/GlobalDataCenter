@@ -78,6 +78,8 @@ all_data <- all_data  %>%
   filter(!is.na(value)) %>%
   arrange(source, id, key)
 
+save(all_data, file="Analysis/all_data.RData")
+
 # brookings, cnas, crs, wilsoncenter include pdf
 library(pdftools)
 crs_ex <- pdf_text("crs_downloader/output/homesec-IF10988.pdf")
