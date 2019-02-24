@@ -63,9 +63,16 @@ for (i in 1:nrow(all_data)) {
                                                                         "%Y%m%d", "%m/%d/%Y", "%B %d")))
   }
 }
-all_data <- all_data %>% arrange(source, id, key)
 
-# all_data  %>% spread(key="key", value="value")
+# create year, month, day columns & make it tidy
+all_data <- all_data  %>% 
+  spread(key="key", value="value") %>%
+  mutate(year = format(as.Date(date), "%Y"),
+         month = format(as.Date(date), "%m"),
+         day = format(as.Date(date), "%d")) %>%
+  gather(key="key", value="value", -id, -source) %>% 
+  filter(!is.na(value)) %>%
+  arrange(source, id, key)
 
 # brookings, cnas, crs, wilsoncenter include pdf
 library(pdftools)
