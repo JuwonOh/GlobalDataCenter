@@ -53,6 +53,14 @@ all_data$key <- recode(all_data$key, headline = "title",
 unique(all_data$key)
 unique(all_data$source)
 
+for (i in 1:nrow(all_data)) {
+  if (all_data$key[i]=="date") {
+    all_data$value[i] <- format(as.Date(all_data$value[i], tryFormats=c("%A, %B %d, %Y", "%B %d, %Y",
+                                                                        "%b. %d, %Y", "%b %d, %Y", "%Y-%m-%d", 
+                                                                        "%Y%m%d", "%m/%d/%Y", "%B %d")))
+  }
+}
+
 # brookings, cnas, crs, wilsoncenter include pdf
 library(pdftools)
 crs_ex <- pdf_text("crs_downloader/output/homesec-IF10988.pdf")
