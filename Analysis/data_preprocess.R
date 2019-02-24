@@ -1,3 +1,7 @@
+## SNU Global Data Center
+## 2019 Feb
+## Sooahn Shin
+
 library(tidyverse)
 library(jsonlite)
 setwd("~/Dropbox/GlobalDataCenter")
