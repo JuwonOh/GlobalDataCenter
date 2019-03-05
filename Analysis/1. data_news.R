@@ -58,5 +58,15 @@ news_data <- news_tidy %>%
   arrange(source, id) %>%
   mutate(id_row = row_number(), date = as.Date(date)) 
 
-save(news_data, file="~/Dropbox/GlobalDataCenter/Analysis/news_data.RData")
 save(news_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/news_tidy.RData")
+
+### preprocess
+source("~/Dropbox/GlobalDataCenter/Analysis/preprocess_functions.R")
+
+news_data <- news_data %>%
+  mutate(text = paste(content, description, title, summary)) 
+
+news_data$text = prep_fun(news_data$text)
+news_data$text = prep_fun2(news_data$text)
+
+save(news_data, file="~/Dropbox/GlobalDataCenter/Analysis/news_data.RData")

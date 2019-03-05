@@ -77,3 +77,12 @@ thinktank_data <- thinktank_data[str_detect(paste0(thinktank_data$content, think
 
 save(thinktank_data, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_data.RData")
 save(thinktank_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_tidy.RData")
+
+monthly_n <- thinktank_data %>%
+  group_by(year, month, source) %>%
+  count() %>%
+  mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d"))
+
+ggplot(monthly_n) + 
+  geom_bar(aes(x=date, y=n), stat="identity", alpha=0.75) +
+  geom_line(aes(x=date, y=n, col=source))
