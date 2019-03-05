@@ -29,13 +29,19 @@ load("news_data.RData")
 monthly_n <- news_data %>%
   group_by(year, month, source) %>%
   count() %>%
-  mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d"))
+    mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
+    ungroup
 
-title = "Article Frequency" ; subtitle = "2018.7 - 2019.3"
+monthly_n <- monthly_n %>% mutate(source = recode(source, fox = "Fox",
+                                                  wsj = "Wall Street Journal",
+                                                  nyt = "New York Times"
+                                                  ))
+           
+title = "Korea-related Article Frequency" ; subtitle = "2018.7 - 2019.3"
 ggplot(monthly_n) + 
     geom_bar(aes(x=date, y=n), stat="identity", alpha=0.5) +
-    geom_line(aes(x=date, y=n, col=source)) + 
-    labs(title=title, subtitle = subtitle,
+    geom_line(aes(x=date, y=n, col=source), size = 3, alpha=0.5) + 
+    labs(title=title, subtitle = subtitle, y = "Frequency", x="Month", 
          caption = "Copyright: SNU IIS Global Data Center")
 
 
