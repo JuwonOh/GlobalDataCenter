@@ -5,7 +5,9 @@ rm(list=ls())
 
 library(tidyverse)
 library(jsonlite)
+
 setwd("~/Dropbox/BigDataDiplomacy/Data/2019/thinktank")
+
 folders_list <- list.files(pattern="*_output")
 sources <- gsub("_output","",folders_list)
 folders_list[2] <- paste0(folders_list[2],"/output")
@@ -73,7 +75,8 @@ thinktank_data <- thinktank_tidy %>%
   arrange(source, id) %>%
   mutate(id_row = row_number(), date = as.Date(date)) 
 
-thinktank_data <- thinktank_data[str_detect(paste0(thinktank_data$content, thinktank_data$title, thinktank_data$summary), "(?i)korea"),] # "korea" related
+thinktank_data <- thinktank_data[str_detect(paste0(thinktank_data$content,
+                                                   thinktank_data$title, thinktank_data$summary), "(?i)korea"),] # "korea" related
 
 save(thinktank_data, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_data.RData")
 save(thinktank_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_tidy.RData")

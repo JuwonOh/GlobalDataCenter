@@ -1,6 +1,8 @@
+#########################
 ## SNU Global Data Center
 ## 2019 March
 ## Sooahn Shin
+#########################
 rm(list=ls())
 
 library(tidyverse)
@@ -9,10 +11,19 @@ library(SnowballC)
 library(udpipe)
 library(lattice)
 library(wesanderson)
-setwd("~/Dropbox/GlobalDataCenter/Analysis")
+
+## user specific working directory setup
+
+if(Sys.getenv("LOGNAME") == "park"){
+    setwd("~/Dropbox/BigDataDiplomacy/Code/2019/Analysis")
+}else{
+    setwd("~/Dropbox/GlobalDataCenter/Analysis")
+}
 
 ### News Data
+source("preprocess_functions.R")
 load("news_data.RData")
+
 
 ## monthly count
 monthly_n <- news_data %>%
@@ -20,9 +31,13 @@ monthly_n <- news_data %>%
   count() %>%
   mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d"))
 
+title = "Article Frequency" ; subtitle = "2018.7 - 2019.3"
 ggplot(monthly_n) + 
-  geom_bar(aes(x=date, y=n), stat="identity", alpha=0.75) +
-  geom_line(aes(x=date, y=n, col=source))
+    geom_bar(aes(x=date, y=n), stat="identity", alpha=0.5) +
+    geom_line(aes(x=date, y=n, col=source)) + 
+    labs(title=title, subtitle = subtitle,
+         caption = "Copyright: SNU IIS Global Data Center")
+
 
 ## unigram keyword
 # news_unigrams <- news_data %>%

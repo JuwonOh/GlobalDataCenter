@@ -7,6 +7,7 @@ library(tidyverse)
 load("~/Dropbox/GlobalDataCenter/Analysis/fox_data.RData")
 load("~/Dropbox/GlobalDataCenter/Analysis/nyt_data.RData")
 load("~/Dropbox/GlobalDataCenter/Analysis/wsj_data.RData")
+
 fox_df$source <- "fox"
 nyt_df$source <- "nyt"
 wsj_df$source <- "wsj"
