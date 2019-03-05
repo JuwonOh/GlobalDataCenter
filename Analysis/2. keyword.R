@@ -25,18 +25,18 @@ source("preprocess_functions.R")
 load("news_data.RData")
 
 
+#########################
+## total frequency plot
+#########################
 ## monthly count
 monthly_n <- news_data %>%
   group_by(year, month, source) %>%
   count() %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
-    ungroup
-
-monthly_n <- monthly_n %>% mutate(source = recode(source, fox = "Fox",
-                                                  wsj = "Wall Street Journal",
-                                                  nyt = "New York Times"
-                                                  ))
-           
+    ungroup() %>% mutate(source = recode(source, fox = "Fox",
+                                         wsj = "Wall Street Journal",
+                                         nyt = "New York Times"
+                                         ))
 title = "Korea-related Article Frequency" ; subtitle = "2018.7 - 2019.3"
 ggplot(monthly_n) + 
     geom_bar(aes(x=date, y=n), stat="identity", alpha=0.5) +
@@ -85,13 +85,50 @@ news_bigrams_by_article <- news_bigrams %>%
   mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
   ungroup()
 
-top10 <- news_bigrams_by_article %>%
-  select(ngram,year,month,n_month,tf_idf_month) %>%
-  distinct() %>%
-  filter(!ngram %in% na_bigrams) %>%
-  group_by(year,month) %>%
-  top_n(10, wt=n_month) %>%
-  arrange(year,month,-n_month)
+#########################
+## top 20 bigram plot
+#########################
+top20 <- news_bigrams_by_article %>%
+    select(ngram,year,month,n_month,tf_idf_month) %>%
+    distinct() %>%
+    filter(!ngram %in% na_bigrams) %>%
+    group_by(year,month) %>%
+    top_n(20, wt=n_month) %>%
+    arrange(year,month,-n_month) %>%
+    mutate(time = paste(year, month, sep="-"))
 
-# news_data$text[which(str_count(news_data$text,"moonjaein jae")!=0)[1]]
+## because of facetting, ordering is not working.
+## So, we have to ungroup it and name a new variable "order"
+pd <- top20 %>%
+    group_by(month) %>%
+    ungroup() %>%
+    ## 2. Arrange by
+    ##   i.  facet group
+    ##   ii. bar height
+    arrange(month, n_month) %>%
+    ## 3. Add order column of row numbers
+    mutate(order = row_number())
 
+title = "Bigram Word Frequency in Korea-related Articles" ; subtitle = "2018.7 - 2019.3"
+p1 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
+    ## geom_bar(stat = "identity", show.legend = FALSE) +
+    ## Free the scales here
+    geom_col(show.legend = FALSE) +
+    facet_wrap(~ time, ncol = 4, scales = "free") +
+    labs(title=title, subtitle = subtitle, y = "Frequency", x="Month", 
+         caption = "Copyright: SNU IIS Global Data Center") +
+    ## Add categories to axis
+    scale_x_continuous(
+        breaks = pd$order,
+        labels = pd$ngram,
+        expand = c(0,0)
+    ) +
+    coord_flip()
+pdf(file="~/Dropbox/BigDataDiplomacy/보고서/2019/plots/top20.pdf",
+    family="sans", width=12, height=8)
+p1
+dev.off()
+
+#########################
+## total frequency plot
+#########################
