@@ -64,10 +64,21 @@ save(news_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/news_tidy.RData")
 ### preprocess
 source("~/Dropbox/GlobalDataCenter/Analysis/preprocess_functions.R")
 
-news_data <- news_data %>%
-  mutate(text = paste(content, description, title, summary)) 
+## NA -> ""
+news_data$content[is.na(news_data$content)] <- ""
+news_data$description[is.na(news_data$description)] <- ""
+news_data$title[is.na(news_data$title)] <- ""
+news_data$summary[is.na(news_data$summary)] <- ""
+
+news_data <- news_data %>% mutate(text = paste(content, description, title, summary)) 
 
 news_data$text = prep_fun(news_data$text)
 news_data$text = prep_fun2(news_data$text)
+
+## "" -> NA
+news_data$content[news_data$content==""] <- NA
+news_data$description[news_data$description==""] <- NA
+news_data$title[news_data$title==""] <- NA
+news_data$summary[news_data$summary==""] <- NA
 
 save(news_data, file="~/Dropbox/GlobalDataCenter/Analysis/news_data.RData")
