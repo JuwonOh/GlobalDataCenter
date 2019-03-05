@@ -78,14 +78,24 @@ thinktank_data <- thinktank_tidy %>%
 thinktank_data <- thinktank_data[str_detect(paste0(thinktank_data$content,
                                                    thinktank_data$title, thinktank_data$summary), "(?i)korea"),] # "korea" related
 
-save(thinktank_data, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_data.RData")
 save(thinktank_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_tidy.RData")
 
-monthly_n <- thinktank_data %>%
-  group_by(year, month, source) %>%
-  count() %>%
-  mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d"))
+### preprocess
+source("~/Dropbox/GlobalDataCenter/Analysis/preprocess_functions.R")
 
-ggplot(monthly_n) + 
-  geom_bar(aes(x=date, y=n), stat="identity", alpha=0.75) +
-  geom_line(aes(x=date, y=n, col=source))
+## NA -> ""
+thinktank_data$content[is.na(thinktank_data$content)] <- ""
+thinktank_data$title[is.na(thinktank_data$title)] <- ""
+thinktank_data$summary[is.na(thinktank_data$summary)] <- ""
+
+thinktank_data <- thinktank_data %>% mutate(text = paste(content, summary, title)) 
+
+thinktank_data$text = prep_fun(thinktank_data$text)
+thinktank_data$text = prep_fun2(thinktank_data$text)
+
+## "" -> NA
+thinktank_data$content[thinktank_data$content==""] <- NA
+thinktank_data$title[thinktank_data$title==""] <- NA
+thinktank_data$summary[thinktank_data$summary==""] <- NA
+
+save(thinktank_data, file="~/Dropbox/GlobalDataCenter/Analysis/thinktank_data.RData")
