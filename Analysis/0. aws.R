@@ -21,8 +21,8 @@ date.range <- seq(from = as.Date("2018/07/01"), to = as.Date("2019/03/25"), by =
 fox_loc <- files_loc[grep(paste0("data/foxnews/korea/", date.range, collapse="|"),files_loc)]
 
 fox_df <- data.frame(id = integer(),
-                             key = character(),
-                             value = character())
+                     key = character(),
+                     value = character())
 for (i in 1:length(fox_loc)) {
   fox_data <- get_object(paste0("s3://gdcbigdata/",fox_loc[i]))
   data <- jsonlite::fromJSON(rawToChar(fox_data), flatten=TRUE)
@@ -61,11 +61,32 @@ wsj_df <- data.frame(id = integer(),
                      key = character(),
                      value = character())
 for (i in 1:length(wsj_loc)) {
-    wsj_data <- get_object(paste0("s3://gdcbigdata/",wsj_loc[i]))
-    data <- jsonlite::fromJSON(rawToChar(wsj_data), flatten=TRUE)
-    data <- reshape::melt(data) %>% mutate(id = i)
-    wsj_df <- rbind(wsj_df, data)
-    if (i%%100==0) cat(i,"th finished!\n")
+  wsj_data <- get_object(paste0("s3://gdcbigdata/",wsj_loc[i]))
+  data <- jsonlite::fromJSON(rawToChar(wsj_data), flatten=TRUE)
+  data <- reshape::melt(data) %>% mutate(id = i)
+  wsj_df <- rbind(wsj_df, data)
+  if (i%%100==0) cat(i,"th finished!\n")
 }
 colnames(wsj_df)[2] <- "key"
 save("wsj_loc","wsj_df", file = "~/Dropbox/GlobalDataCenter/Analysis/wsj_data.RData")
+
+### Reddit
+month.range <- seq(from = as.Date("2018/07/01"), to = as.Date("2019/03/25"), by = "month")
+month.range <- str_sub(month.range,1,7)
+reddit_loc <- files_loc[grep(paste0("data/reddit/RS_", month.range, collapse="|"),files_loc)]
+
+reddit_df <- data.frame(id = integer(),
+                        key = character(),
+                        value = character())
+for (i in 1:length(reddit_loc)) {
+  data <- get_object(paste0("s3://gdcbigdata/",reddit_loc[i]))
+  data <- rawToChar(data)
+  data <- gsub("}\n{\"archived\"", "},{\"archived\"", data, fixed = T)
+  data <- paste0("[",data,"]")
+  data <- jsonlite::fromJSON(data, flatten=TRUE) %>% mutate(date = month.range[i],
+                                                            id = row_number())
+  data <- data %>% gather(key, value, -id, -date)
+  reddit_df <- rbind(reddit_df, data)
+  cat(i,"th finished!\n")
+}
+save("reddit_df", file = "~/Dropbox/GlobalDataCenter/Analysis/reddit_data.RData")
