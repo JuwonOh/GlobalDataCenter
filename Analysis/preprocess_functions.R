@@ -1,3 +1,49 @@
+
+### function
+coocurrence_data <- function(input) {
+  cat("udpipe annotate start!\n")
+  udpipe_output <- udpipe_annotate(udmodel_english, input)
+  udpipe_output <- data.frame(udpipe_output)
+  cat("udpipe annotate finished!\n")
+  cooc_data <- cooccurrence(x = subset(udpipe_output, upos %in% c("NOUN", "ADJ")), 
+                            term = "lemma", 
+                            group = c("doc_id"),
+                            ngram_max = 4, n_min = 4)
+  cooc_data <- cooc_data %>%
+    filter(!term1 %in% na_unigrams) %>%
+    filter(!term2 %in% na_unigrams)
+  return(cooc_data)
+}
+
+network_graph <- function(cooc_data, 
+                          cut.point = 200, 
+                          title = NULL, 
+                          subtitle = NULL,
+                          layout = "fr", ## "nicely"
+                          edge.col = "#FF0000",
+                          text.col = "#35274A",
+                          default.text.size = 1,
+                          default.node.size= 5) {
+    wordnetwork <- cooc_data %>% top_n(cut.point, wt=cooc)
+    vert <- data.frame(node = names(table(c(wordnetwork$term1, wordnetwork$term2))),
+                       size = as.vector(table(c(wordnetwork$term1, wordnetwork$term2))))
+
+    wordnetwork2 <- igraph::graph_from_data_frame(wordnetwork, vertices = vert)
+    plot <- ggraph(wordnetwork2, layout = "fr") +
+        geom_edge_link(aes(edge_alpha = cooc), 
+                       edge_colour = edge.col)  +
+        geom_node_text(aes(label = name), col = text.col, size = 4*vert$size/max(vert$size) + default.text.size) +
+        geom_node_point(size = 7*vert$size/max(vert$size) + default.node.size, col= "royalblue", alpha=0.2) +
+        scale_size(range = c(4, 60), guide = 'none') + 
+        theme_graph(base_family = "sans") +
+        theme(legend.position = "none") +
+        scale_edge_width(range = c(1, 2)) + scale_edge_alpha(range = c(0.2, 0.5)) +
+        labs(title=title, subtitle = subtitle, caption = "Copyright: SNU IIS Global Data Center")
+    return(plot)
+}
+
+
+
 prep_fun <- function(x) {
   # make text lower case
   x = str_to_lower(x)
