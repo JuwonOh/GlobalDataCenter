@@ -16,12 +16,14 @@ library(wesanderson)
 
 if(Sys.getenv("LOGNAME") == "park"){
     setwd("~/Dropbox/BigDataDiplomacy/Code/2019/Analysis")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/preprocess_functions.R")
+
 }else{
     setwd("~/Dropbox/GlobalDataCenter/Analysis")
+    source("preprocess_functions.R")
 }
 
 ### News Data
-source("preprocess_functions.R")
 load("news_data.RData")
 
 
