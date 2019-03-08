@@ -81,3 +81,10 @@ na_bigrams <- c("email sign", "content programming", "copies content",
                 "washington post", "york city", "ap photo", "rights reserved",
                 "july copy", "begin video", "cq roll", "copyright cq", "permission cq",
                 "video clip")
+
+na_unigrams <- c("morning", "evening", "download", "news", "report",
+                 "happy", "hour", "news", "brief", "briefing", "ap", "photos",
+                 "day", "n.", "york", "wsj", "bret", "edt", "baier", "street", "wall",
+                 "journal", "fox", "weekend", "quiz", "today", "briefe", "..",
+                 "jae", NA, "video", "clip", "wall", "getelementbyid","www",
+                 "abra")
