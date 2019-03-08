@@ -70,9 +70,9 @@ news_data$description[is.na(news_data$description)] <- ""
 news_data$title[is.na(news_data$title)] <- ""
 news_data$summary[is.na(news_data$summary)] <- ""
 
-news_data <- news_data %>% mutate(text = paste(content, description, title, summary)) 
+news_data <- news_data %>% mutate(text_raw = paste(content, description, title, summary)) 
 
-news_data$text = prep_fun(news_data$text)
+news_data$text = prep_fun(news_data$text_raw)
 news_data$text = prep_fun2(news_data$text)
 
 ## "" -> NA

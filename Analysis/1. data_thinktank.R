@@ -88,9 +88,9 @@ thinktank_data$content[is.na(thinktank_data$content)] <- ""
 thinktank_data$title[is.na(thinktank_data$title)] <- ""
 thinktank_data$summary[is.na(thinktank_data$summary)] <- ""
 
-thinktank_data <- thinktank_data %>% mutate(text = paste(content, summary, title)) 
+thinktank_data <- thinktank_data %>% mutate(text_raw = paste(content, summary, title)) 
 
-thinktank_data$text = prep_fun(thinktank_data$text)
+thinktank_data$text = prep_fun(thinktank_data$text_raw)
 thinktank_data$text = prep_fun2(thinktank_data$text)
 
 ## "" -> NA

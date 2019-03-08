@@ -79,9 +79,9 @@ source("~/Dropbox/GlobalDataCenter/Analysis/preprocess_functions.R")
 goverment_data$content[is.na(goverment_data$content)] <- ""
 goverment_data$title[is.na(goverment_data$title)] <- ""
 
-goverment_data <- goverment_data %>% mutate(text = paste(content, title)) 
+goverment_data <- goverment_data %>% mutate(text_raw = paste(content, title)) 
 
-goverment_data$text = prep_fun(goverment_data$text)
+goverment_data$text = prep_fun(goverment_data$text_raw)
 goverment_data$text = prep_fun2(goverment_data$text)
 
 ## "" -> NA
