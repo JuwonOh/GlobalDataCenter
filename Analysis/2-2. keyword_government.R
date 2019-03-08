@@ -23,13 +23,14 @@ if(Sys.getenv("LOGNAME") == "park"){
     source("preprocess_functions.R")
 }
 
-### News Data
-load("thinktank_data.RData")
-input_data <- thinktank_data
+### Government Data
+load("government_data.RData")
+input_data <- goverment_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/thinktank"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/government"
 subtitle = "2018.7 - 2019.3"
-input = "Thinktank"
+input = "Government"
+
 
 #########################
 ## total frequency plot
@@ -39,7 +40,13 @@ monthly_n <- input_data %>%
   group_by(year, month, source) %>%
   count() %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
-    ungroup()
+    ungroup()%>% mutate(source = recode(source, dod = "Dept. of Defense",
+                                         dos = "Dept. of State",
+                                        ustr = "USTR",
+                                        whitehouse = "White House"
+                                         ))
+ 
+
 
 title = paste0("Korea-related ", input,  " Article Frequency") ; 
 p0 <- ggplot(monthly_n) + 
@@ -125,7 +132,6 @@ p01 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
 
 pdf(file=paste0(file.name, "_top40unigram_absolute.pdf"),
     family="sans", width=16, height=15)
-p01
 dev.off()
 
 ## relative frequency
@@ -156,8 +162,8 @@ p02 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
          caption = "Copyright: SNU IIS Global Data Center") +
     ## Add categories to axis
     scale_x_continuous(
-        breaks = pd0$order,
-        labels = pd0$ngram,
+        breaks = pd$order,
+        labels = pd$ngram,
         expand = c(0,0)
     ) +
     coord_flip()

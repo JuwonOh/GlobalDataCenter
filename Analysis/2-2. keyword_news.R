@@ -24,22 +24,26 @@ if(Sys.getenv("LOGNAME") == "park"){
 }
 
 ### News Data
-load("thinktank_data.RData")
-input_data <- thinktank_data
+load("news_data.RData")
+input_data <- news_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/thinktank"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/news"
 subtitle = "2018.7 - 2019.3"
-input = "Thinktank"
+input = "News"
 
 #########################
 ## total frequency plot
 #########################
 ## monthly count
-monthly_n <- input_data %>%
+monthly_n <- news_data %>%
   group_by(year, month, source) %>%
   count() %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
-    ungroup()
+    ungroup() %>% mutate(source = recode(source, fox = "Fox",
+                                         wsj = "Wall Street Journal",
+                                         nyt = "New York Times"
+                                         ))
+
 
 title = paste0("Korea-related ", input,  " Article Frequency") ; 
 p0 <- ggplot(monthly_n) + 
@@ -50,7 +54,7 @@ p0 <- ggplot(monthly_n) +
     scale_x_date(date_breaks = "months" , date_labels = "%Y-%b") + 
     labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
          caption = "Copyright: SNU IIS Global Data Center")
-pdf(file=paste0(file.name, "_totalfreq.pdf"),
+pdf(file=paste0(file.name, input, "_totalfreq.pdf"),
     family="sans", width=12, height=8)
 p0
 dev.off()
@@ -156,8 +160,8 @@ p02 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
          caption = "Copyright: SNU IIS Global Data Center") +
     ## Add categories to axis
     scale_x_continuous(
-        breaks = pd0$order,
-        labels = pd0$ngram,
+        breaks = pd$order,
+        labels = pd$ngram,
         expand = c(0,0)
     ) +
     coord_flip()
@@ -207,7 +211,7 @@ p1 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
     ) +
     coord_flip()
 pdf(file=paste0(file.name, "_top40bigram_absolute.pdf"),
-    family="sans", width=16, height=15)
+    family="sans",width=16, height=15)
 p1
 dev.off()
 

@@ -395,7 +395,7 @@ word.list <- c("iran", "libya", "venezuela",
     "plutonium", "dismantlement", "uranium")
 ## c <- rbind(news_unigrams_by_article, news_bigrams_by_article) %>% filter(ngram%in% word.list) 
 
-p.list = lapply(1:length(word.list), function(i) {
+## p.list = lapply(1:length(word.list), function(i) {
     df.bigram %>% filter(str_detect(ngram, word.list[i]))%>%
     ## filter(ngram%in% word.list[[i]]) %>%
     select(date, n_month, ngram) %>%
