@@ -63,7 +63,7 @@ dev.off()
 #########################
 input_data <- as_tibble(input_data)
 input_unigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 1) %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 1, collapse = F) %>%
   filter(!ngram %in% stop_words$word) %>%
   mutate(stemmed = wordStem(ngram))
 
@@ -80,7 +80,7 @@ input_unigrams_by_article <- input_unigrams %>%
 ## bigram keyword
 #########################
 input_bigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 2) %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 2, collapse = F) %>%
   separate(ngram, c("word1", "word2"), sep = " ") %>%
   filter(!word1 %in% stop_words$word) %>%
   filter(!word2 %in% stop_words$word) %>%
