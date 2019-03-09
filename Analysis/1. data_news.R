@@ -7,16 +7,21 @@ library(tidyverse)
 load("~/Dropbox/GlobalDataCenter/Analysis/fox_data.RData")
 load("~/Dropbox/GlobalDataCenter/Analysis/nyt_data.RData")
 load("~/Dropbox/GlobalDataCenter/Analysis/wsj_data.RData")
+load("~/Dropbox/GlobalDataCenter/Analysis/wp_data.RData")
 
 fox_df$source <- "fox"
 nyt_df$source <- "nyt"
 wsj_df$source <- "wsj"
+wp_df$source <- "wp"
 
 fox_df <- fox_df[fox_df$key!="headline",]
+wp_df <- wp_df[wp_df$key!="date",]
+
 wsj_df[wsj_df$key=="headline","key"] <- "title"
+wp_df[wp_df$key=="headline","key"] <- "title"
+wp_df[wp_df$key=="date_strf","key"] <- "date"
 
-
-news_data <- rbind(fox_df,nyt_df,wsj_df)
+news_data <- rbind(fox_df,nyt_df,wsj_df,wp_df)
 news_data <- news_data[c("id","key","value","source")]
 news_data <- news_data[news_data$value!="",]
 news_data$value <- as.character(news_data$value)

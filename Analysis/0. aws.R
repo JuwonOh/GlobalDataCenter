@@ -35,6 +35,24 @@ for (i in 1:length(fox_loc)) {
 colnames(fox_df)[2] <- "key"
 save("fox_loc","fox_df", file = "~/Dropbox/GlobalDataCenter/Analysis/fox_data.RData")
 
+### Washington Post
+wp_loc <- files_loc[grep(paste0("data/wp/korea/", date.range, collapse="|"),files_loc)]
+
+wp_df <- data.frame(id = integer(),
+                     key = character(),
+                     value = character())
+for (i in 1:length(wp_loc)) {
+  wp_data <- get_object(paste0("s3://gdcbigdata/",wp_loc[i]))
+  data <- jsonlite::fromJSON(rawToChar(wp_data), flatten=TRUE)
+  if (data$content!="") {
+    data <- reshape::melt(data) %>% mutate(id = i)
+    wp_df <- rbind(wp_df, data)
+  }
+  if (i%%100==0) cat(i,"th finished!\n")
+}
+colnames(wp_df)[2] <- "key"
+save("wp_loc","wp_df", file = "~/Dropbox/GlobalDataCenter/Analysis/wp_data.RData")
+
 
 ### New York Times
 nyt_loc <- files_loc[grep(paste0("data/nytimes/korea/", format(date.range, "%Y%m%d"), collapse="|"),files_loc)]
