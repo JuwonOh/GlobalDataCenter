@@ -33,7 +33,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("reddit_data.RData")
 input_data <- reddit_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/reddit"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/reddit"
 subtitle = "2018.7 - 2019.3"
 input = "Reddit"
 

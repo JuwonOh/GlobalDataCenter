@@ -33,7 +33,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("thinktank_data.RData")
 input_data <- thinktank_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/thinktank"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/thinktank"
 subtitle = "2018.7 - 2019.3"
 input = "Thinktank"
 

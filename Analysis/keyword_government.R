@@ -33,7 +33,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("government_data.RData")
 input_data <- goverment_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/government"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/government"
 subtitle = "2018.7 - 2019.3"
 input = "Government"
 

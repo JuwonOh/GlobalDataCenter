@@ -47,7 +47,8 @@ monthly_n <- news_data %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
     ungroup() %>% mutate(source = recode(source, fox = "Fox",
                                          wsj = "Wall Street Journal",
-                                         nyt = "New York Times"
+                                         nyt = "New York Times",
+                                         wp = "Washington Post"
                                          ))
 
 
@@ -60,7 +61,7 @@ p0 <- ggplot(monthly_n) +
     scale_x_date(date_breaks = "months" , date_labels = "%Y-%b") + 
     labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
          caption = "Copyright: SNU IIS Global Data Center")
-pdf(file=paste0(file.name, input, "_totalfreq.pdf"),
+pdf(file=paste0(file.name, "_totalfreq.pdf"),
     family="sans", width=12, height=8)
 p0
 dev.off()

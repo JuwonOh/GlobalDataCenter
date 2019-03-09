@@ -20,14 +20,17 @@ Type 'q()' to quit R.
 [Previously saved workspace restored]
 
 
-Successfully loaded .Rprofile at Sat Mar  9 10:57:21 2019 
+Successfully loaded .Rprofile at Sat Mar  9 14:02:41 2019 
 R > #########################
 R > ## SNU Global Data Center
 R > ## 2019 March
-R > ## Sooahn Shin
+R > ## Sooahn Shin & JONG HEE PARK
 R > #########################
 R > rm(list=ls())
 R > 
+R > #########################
+R > ## package loading
+R > #########################
 R > library(tidyverse)
 ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
 ✔ tibble  2.0.1       ✔ purrr   0.3.0  
@@ -51,8 +54,9 @@ R > library(udpipe)
 R > library(lattice)
 R > library(wesanderson)
 R > 
+R > #########################
 R > ## user specific working directory setup
-R > 
+R > #########################
 R > if(Sys.getenv("LOGNAME") == "park"){
 +     setwd("~/Dropbox/BigDataDiplomacy/Code/2019/Analysis")
 +     source("~/Github/Sooahn/GlobalDataCenter/Analysis/preprocess_functions.R")
@@ -62,7 +66,9 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 +     source("preprocess_functions.R")
 + }
 R > 
-R > ### News Data
+R > #########################
+R > ## Data
+R > #########################
 R > load("news_data.RData")
 R > input_data <- news_data
 R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
@@ -80,7 +86,8 @@ R > monthly_n <- news_data %>%
 +     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
 +     ungroup() %>% mutate(source = recode(source, fox = "Fox",
 +                                          wsj = "Wall Street Journal",
-+                                          nyt = "New York Times"
++                                          nyt = "New York Times",
++                                          wp = "Washington Post"
 +                                          ))
 R > 
 R > 
@@ -93,7 +100,7 @@ R > p0 <- ggplot(monthly_n) +
 +     scale_x_date(date_breaks = "months" , date_labels = "%Y-%b") + 
 +     labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
 +          caption = "Copyright: SNU IIS Global Data Center")
-R > pdf(file=paste0(file.name, input, "_totalfreq.pdf"),
+R > pdf(file=paste0(file.name, "_totalfreq.pdf"),
 +     family="sans", width=12, height=8)
 R > p0
 Warning messages:
@@ -152,7 +159,7 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 R > 
 R > q()
 
-Goodbye at  Sat Mar  9 10:58:32 2019 
+Goodbye at  Sat Mar  9 14:04:07 2019 
 > proc.time()
    user  system elapsed 
- 69.132   2.343  71.651 
+ 84.099   2.968  87.361 
