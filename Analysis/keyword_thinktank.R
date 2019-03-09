@@ -106,7 +106,7 @@ top40 <- input_unigrams_by_article %>%
 pd <- top40 %>%
     group_by(month) %>%
     ungroup() %>%
-    arrange(month, tf_idf_month) %>%
+    arrange(month, n_month) %>%
     mutate(order = row_number())
 
 title = paste0("Unigram Word Frequency in Korea-related ", input, " Articles")
@@ -156,8 +156,8 @@ p02 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
          caption = "Copyright: SNU IIS Global Data Center") +
     ## Add categories to axis
     scale_x_continuous(
-        breaks = pd0$order,
-        labels = pd0$ngram,
+        breaks = pd$order,
+        labels = pd$ngram,
         expand = c(0,0)
     ) +
     coord_flip()

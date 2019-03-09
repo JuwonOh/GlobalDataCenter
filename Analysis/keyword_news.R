@@ -23,29 +23,26 @@ if(Sys.getenv("LOGNAME") == "park"){
     source("preprocess_functions.R")
 }
 
-### Government Data
-load("government_data.RData")
-input_data <- goverment_data
+### News Data
+load("news_data.RData")
+input_data <- news_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/government"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/news"
 subtitle = "2018.7 - 2019.3"
-input = "Government"
-
+input = "News"
 
 #########################
 ## total frequency plot
 #########################
 ## monthly count
-monthly_n <- input_data %>%
+monthly_n <- news_data %>%
   group_by(year, month, source) %>%
   count() %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
-    ungroup()%>% mutate(source = recode(source, dod = "Dept. of Defense",
-                                         dos = "Dept. of State",
-                                        ustr = "USTR",
-                                        whitehouse = "White House"
+    ungroup() %>% mutate(source = recode(source, fox = "Fox",
+                                         wsj = "Wall Street Journal",
+                                         nyt = "New York Times"
                                          ))
- 
 
 
 title = paste0("Korea-related ", input,  " Article Frequency") ; 
@@ -57,7 +54,7 @@ p0 <- ggplot(monthly_n) +
     scale_x_date(date_breaks = "months" , date_labels = "%Y-%b") + 
     labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
          caption = "Copyright: SNU IIS Global Data Center")
-pdf(file=paste0(file.name, "_totalfreq.pdf"),
+pdf(file=paste0(file.name, input, "_totalfreq.pdf"),
     family="sans", width=12, height=8)
 p0
 dev.off()
@@ -113,7 +110,7 @@ top40 <- input_unigrams_by_article %>%
 pd <- top40 %>%
     group_by(month) %>%
     ungroup() %>%
-    arrange(month, tf_idf_month) %>%
+    arrange(month, n_month) %>%
     mutate(order = row_number())
 
 title = paste0("Unigram Word Frequency in Korea-related ", input, " Articles")
@@ -132,6 +129,7 @@ p01 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
 
 pdf(file=paste0(file.name, "_top40unigram_absolute.pdf"),
     family="sans", width=16, height=15)
+p01
 dev.off()
 
 ## relative frequency
@@ -213,7 +211,7 @@ p1 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
     ) +
     coord_flip()
 pdf(file=paste0(file.name, "_top40bigram_absolute.pdf"),
-    family="sans", width=16, height=15)
+    family="sans",width=16, height=15)
 p1
 dev.off()
 
