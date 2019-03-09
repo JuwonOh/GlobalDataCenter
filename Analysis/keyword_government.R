@@ -1,10 +1,13 @@
 #########################
 ## SNU Global Data Center
 ## 2019 March
-## Sooahn Shin
+## Sooahn Shin & JONG HEE PARK
 #########################
 rm(list=ls())
 
+#########################
+## package loading
+#########################
 library(tidyverse)
 library(tidytext)
 library(SnowballC)
@@ -12,8 +15,9 @@ library(udpipe)
 library(lattice)
 library(wesanderson)
 
+#########################
 ## user specific working directory setup
-
+#########################
 if(Sys.getenv("LOGNAME") == "park"){
     setwd("~/Dropbox/BigDataDiplomacy/Code/2019/Analysis")
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/preprocess_functions.R")
@@ -23,7 +27,9 @@ if(Sys.getenv("LOGNAME") == "park"){
     source("preprocess_functions.R")
 }
 
-### Government Data
+#########################
+## Data
+#########################
 load("government_data.RData")
 input_data <- goverment_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
@@ -45,8 +51,6 @@ monthly_n <- input_data %>%
                                         ustr = "USTR",
                                         whitehouse = "White House"
                                          ))
- 
-
 
 title = paste0("Korea-related ", input,  " Article Frequency") ; 
 p0 <- ggplot(monthly_n) + 
@@ -98,187 +102,12 @@ input_bigrams_by_article <- input_bigrams %>%
   mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
     ungroup()
 
-#########################
-## top 40 uniigram plot
-#########################
-top40 <- input_unigrams_by_article %>%
-    select(ngram,year,month,n_month,tf_idf_month) %>%
-    distinct() %>%
-    filter(!ngram %in% na_bigrams) %>%
-    group_by(year,month) %>%
-    top_n(40, wt=tf_idf_month) %>%
-    arrange(year,month,-tf_idf_month) %>%
-    mutate(time = paste(year, month, sep="-"))
+## keyword_execution
+if(Sys.getenv("LOGNAME") == "park"){
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/keyword_execution.R")
 
-pd <- top40 %>%
-    group_by(month) %>%
-    ungroup() %>%
-    arrange(month, n_month) %>%
-    mutate(order = row_number())
+}else{
+    source("keyword_execution.R")
+}
 
-title = paste0("Unigram Word Frequency in Korea-related ", input, " Articles")
-
-p01 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
-    geom_col(show.legend = FALSE) +
-    facet_wrap(~ time, ncol = 4, scales = "free") +
-    labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
-         caption = "Copyright: SNU IIS Global Data Center") +
-    scale_x_continuous(
-        breaks = pd$order,
-        labels = pd$ngram,
-        expand = c(0,0)
-    ) +
-    coord_flip()
-
-pdf(file=paste0(file.name, "_top40unigram_absolute.pdf"),
-    family="sans", width=16, height=15)
-dev.off()
-
-## relative frequency
-top40 <- input_unigrams_by_article %>%
-    select(ngram,year,month,n_month,tf_idf_month) %>%
-    distinct() %>%
-    filter(!ngram %in% na_bigrams) %>%
-    group_by(year,month) %>%
-    top_n(40, wt=tf_idf_month) %>%
-    arrange(year,month,-tf_idf_month) %>%
-    mutate(time = paste(year, month, sep="-"))
-
-pd <- top40 %>%
-    group_by(month) %>%
-    ungroup() %>%
-    arrange(month, tf_idf_month) %>%
-    ## 3. Add order column of row numbers
-    mutate(order = row_number())
-
-title = paste0("Unigram Word Frequency in Korea-related ", input, " Articles")
-
-p02 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
-    ## geom_bar(stat = "identity", show.legend = FALSE) +
-    ## Free the scales here
-    geom_col(show.legend = FALSE) +
-    facet_wrap(~ time, ncol = 4, scales = "free") +
-    labs(title=title, subtitle = subtitle, y = "Relative Frequency", x="Month", 
-         caption = "Copyright: SNU IIS Global Data Center") +
-    ## Add categories to axis
-    scale_x_continuous(
-        breaks = pd$order,
-        labels = pd$ngram,
-        expand = c(0,0)
-    ) +
-    coord_flip()
-pdf(file=paste0(file.name, "_top40unigram_relative.pdf"),
-    family="sans", width=16, height=15)
-p02
-dev.off()
-
-
-#########################
-## top 40 bigram plot
-#########################
-top40 <- input_bigrams_by_article %>%
-    select(ngram,year,month,n_month,tf_idf_month) %>%
-    distinct() %>%
-    filter(!ngram %in% na_bigrams) %>%
-    group_by(year,month) %>%
-    top_n(20, wt=n_month) %>%
-    arrange(year,month,-n_month) %>%
-    mutate(time = paste(year, month, sep="-"))
-
-## because of facetting, ordering is not working.
-## So, we have to ungroup it and name a new variable "order"
-pd <- top40 %>%
-    group_by(month) %>%
-    ungroup() %>%
-    ## 2. Arrange by
-    ##   i.  facet group
-    ##   ii. bar height
-    arrange(month, n_month) %>%
-    ## 3. Add order column of row numbers
-    mutate(order = row_number())
-
-title = paste0("Bigram Word Frequency in Korea-related ", input, " Articles")
-p1 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
-    ## geom_bar(stat = "identity", show.legend = FALSE) +
-    ## Free the scales here
-    geom_col(show.legend = FALSE) +
-    facet_wrap(~ time, ncol = 4, scales = "free") +
-    labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
-         caption = "Copyright: SNU IIS Global Data Center") +
-    ## Add categories to axis
-    scale_x_continuous(
-        breaks = pd$order,
-        labels = pd$ngram,
-        expand = c(0,0)
-    ) +
-    coord_flip()
-pdf(file=paste0(file.name, "_top40bigram_absolute.pdf"),
-    family="sans", width=16, height=15)
-p1
-dev.off()
-
-#########################
-### top 40 bigram relative frequency
-#########################
-top40 <- input_bigrams_by_article %>%
-    select(ngram,year,month,n_month,tf_idf_month) %>%
-    distinct() %>%
-    filter(!ngram %in% na_bigrams) %>%
-    group_by(year,month) %>%
-    top_n(40, wt=tf_idf_month) %>%
-    arrange(year,month,-tf_idf_month) %>%
-    mutate(time = paste(year, month, sep="-"))
-
-## because of facetting, ordering is not working.
-## So, we have to ungroup it and name a new variable "order"
-pd <- top40 %>%
-    group_by(month) %>%
-    ungroup() %>%
-    ## 2. Arrange by
-    ##   i.  facet group
-    ##   ii. bar height
-    arrange(month, tf_idf_month) %>%
-    ## 3. Add order column of row numbers
-    mutate(order = row_number())
-
-
-p11 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
-    ## geom_bar(stat = "identity", show.legend = FALSE) +
-    ## Free the scales here
-    geom_col(show.legend = FALSE) +
-    facet_wrap(~ time, ncol = 4, scales = "free") +
-    labs(title=title, subtitle = subtitle, y = "Frequency", x="Month", 
-         caption = "Copyright: SNU IIS Global Data Center") +
-    ## Add categories to axis
-    scale_x_continuous(
-        breaks = pd$order,
-        labels = pd$ngram,
-        expand = c(0,0)
-    ) +
-    coord_flip()
-
-
-title = paste0("Bigram Word Frequency in Korea-related ", input, " Articles") ;
-## p.list = lapply(sort(unique(pd$time)), function(i) {
-p12 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
-    ## geom_bar(stat = "identity", show.legend = FALSE) +
-    ## Free the scales here
-    geom_col(show.legend = FALSE) +
-    facet_wrap(~ time, ncol = 4, scales = "free") +
-    labs(title=title, subtitle = subtitle, y = "Frequency", x="Bigram Word", 
-         caption = "Copyright: SNU IIS Global Data Center") +
-    ## Add categories to axis
-    scale_x_continuous(
-        breaks = pd$order,
-        labels = pd$ngram,
-        expand = c(0,0)
-    ) +
-        coord_flip()
-
-
-## library(gridExtra)
-pdf(file=paste0(file.name, "_top40bigram_relative.pdf"),
-    family="sans", width=16, height=15)
-p12 ## do.call(grid.arrange, c(p.list, nrow=2))
-dev.off()
-
+q()
