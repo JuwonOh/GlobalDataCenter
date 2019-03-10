@@ -29,14 +29,17 @@ if(Sys.getenv("LOGNAME") == "park"){
 #########################
 ## Data
 #########################
-load("news_data.RData")
+load("reddit_data.RData")
 load("keyplayers.RData") ## 526 key players
-input_data <- news_data
+input_data <- reddit_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyplayer_network/news"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyplayer_network/reddit"
 subtitle = "2018.7 - 2019.3"
-input = "News"
+input = "Reddit"
 
+#########################
+## The code does not working because names are so different!!!
+#########################
 
 #########################
 ## plot
