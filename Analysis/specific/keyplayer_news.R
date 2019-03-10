@@ -13,6 +13,8 @@ library(lattice)
 library(wesanderson)
 library(ggraph)
 library(igraph)
+library(ggnet)
+require(sna)
 
 #########################
 ## user specific working directory setup
@@ -29,13 +31,55 @@ if(Sys.getenv("LOGNAME") == "park"){
 #########################
 ## Data
 #########################
-load("thinktank_data.RData")
+load("news_data.RData")
 load("keyplayers.RData") ## 526 key players
-input_data <- thinktank_data
-month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02", "03")
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyplayer_network/thinktank"
+input_data <- news_data
+month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyplayer_network/news"
 subtitle = "2018.7 - 2019.3"
-input = "Thinktank"
+input = "News"
+
+#########################
+## SNU Global Data Center
+## 2019 March
+## Sooahn Shin
+#########################
+rm(list=ls())
+
+library(tidyverse)
+library(tidytext)
+library(SnowballC)
+library(udpipe)
+library(lattice)
+library(wesanderson)
+library(ggraph)
+library(igraph)
+library(ggnet)
+require(sna)
+
+#########################
+## user specific working directory setup
+#########################
+if(Sys.getenv("LOGNAME") == "park"){
+    setwd("~/Dropbox/BigDataDiplomacy/Code/2019/Analysis")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/preprocess_functions.R")
+
+}else{
+    setwd("~/Dropbox/GlobalDataCenter/Analysis")
+    source("preprocess_functions.R")
+}
+
+#########################
+## Data
+#########################
+load("news_data.RData")
+load("keyplayers.RData") ## 526 key players
+input_data <- news_data
+month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyplayer_network/news"
+subtitle = "2018.7 - 2019.3"
+input = "News"
+
 
 #########################
 ## plot
@@ -88,11 +132,15 @@ net %v% "type" = ifelse(names %in% c("Donald Trump","Kim Jong-un","Moon Jae-in",
 net %v% "color" = ifelse(net %v% "type" == "Leader", "steelblue", "tomato")
 
 gg <- ggnet2(net, color="color", size = "degree", label = TRUE, label.size = 3,
-                  size.min = floor(mean(rowSums(cooc_matrix)))+1, label.color = "white", edge.color = "grey") +
+                  size.min = 50, label.color = "white", edge.color = "grey") +
     theme(legend.position="none", panel.background = element_rect(fill = "grey15")) +
     labs(title=title, subtitle=subtitle, caption = "Copyright: SNU IIS Global Data Center")
 
 pdf(file=paste0(file.name, "_network_black.pdf"), family="sans", width=14, height=10)
+print(gg)
+dev.off()
+png(file=paste0(file.name, "_network_black.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
 print(gg)
 dev.off()
 
@@ -105,8 +153,6 @@ dev.off()
 N.month <- length(month.name)
 g <- gg <- gg.multi <- as.list(rep(NA, N.month))
 time.stamp <- c(paste0("2018-", 7:12), paste0("2019-", 1:3))
-library(ggnet)
-require(sna)
 for(t in 1:N.month){
      occur_matrix_month <- occur_matrix[input_data$month == month.name[t],]
      cooc_matrix_month <- t(occur_matrix_month)%*%occur_matrix_month
@@ -133,7 +179,7 @@ for(t in 1:N.month){
      ##          caption = "Copyright: SNU IIS Global Data Center")
      ## if(floor(mean(rowSums(cooc_matrix_month)))>=1){
      gg.multi[[t]] <- ggnet2(net, color="color", size = "degree", label = TRUE, label.size = 3,
-                             size.min = floor(mean(rowSums(cooc_matrix_month)))+1, label.color = "white", edge.color = "grey") +
+                             size.min = floor(mean(rowSums(cooc_matrix_month)))+10, label.color = "white", edge.color = "grey") +
          theme(legend.position="none", panel.background = element_rect(fill = "grey15")) +
          labs(title=time.stamp[t])
      ## }
@@ -153,7 +199,32 @@ multiplot(gg.multi[[1]], gg.multi[[2]],
           ## gg.multi[[20+1]], gg.multi[[20+2]], gg.multi[[20+3]], gg.multi[[20+4]],
           cols = 2)
 dev.off()
+png(file=paste0(file.name, "_network_montly1.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
+multiplot(gg.multi[[1]], gg.multi[[2]],
+          gg.multi[[3]], gg.multi[[4]],
+          ## gg.multi[[4+1]], gg.multi[[4+2]], gg.multi[[4+3]], gg.multi[[4+4]],
+          ## gg.multi[[8+1]], gg.multi[[8+2]], ## gg.multi[[8+3]], ## gg.multi[[8+4]],
+          ## gg.multi[[12+1]], gg.multi[[12+2]], gg.multi[[12+3]], gg.multi[[12+4]],
+          ## gg.multi[[16+1]],
+          ##gg.multi[[16+2]], gg.multi[[16+3]], gg.multi[[16+4]],
+          ## gg.multi[[20+1]], gg.multi[[20+2]], gg.multi[[20+3]], gg.multi[[20+4]],
+          cols = 2)
+dev.off()
+
 pdf(file = paste0(file.name, "_network_montly2.pdf"), width=10, height=8, family="sans")
+multiplot(## gg.multi[[1]], gg.multi[[2]],
+          ## gg.multi[[3]], gg.multi[[4]],
+          gg.multi[[4+1]], gg.multi[[4+2]], gg.multi[[4+3]], gg.multi[[4+4]],
+          ## gg.multi[[8+1]], gg.multi[[8+2]], ## gg.multi[[8+3]], ## gg.multi[[8+4]],
+          ## gg.multi[[12+1]], gg.multi[[12+2]], gg.multi[[12+3]], gg.multi[[12+4]],
+          ## gg.multi[[16+1]],
+          ##gg.multi[[16+2]], gg.multi[[16+3]], gg.multi[[16+4]],
+          ## gg.multi[[20+1]], gg.multi[[20+2]], gg.multi[[20+3]], gg.multi[[20+4]],
+          cols = 2)
+dev.off()
+png(file=paste0(file.name, "_network_montly2.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
 multiplot(## gg.multi[[1]], gg.multi[[2]],
           ## gg.multi[[3]], gg.multi[[4]],
           gg.multi[[4+1]], gg.multi[[4+2]], gg.multi[[4+3]], gg.multi[[4+4]],

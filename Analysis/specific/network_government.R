@@ -33,7 +33,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("government_data.RData")
 input_data <- goverment_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/government"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/government"
 subtitle = "2018.7 - 2019.3"
 input = "Government"
 #########################
@@ -57,6 +57,11 @@ pdf(file=paste0(file.name, "_network_total.pdf"),
     family="sans", width=8, height=8)
 g1
 dev.off()
+png(file=paste0(file.name, "_network_total.png"),
+    width = 465, height = 325, units='mm', res = 300)
+print(g1)
+dev.off()
+
 
 ### title - monthly
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02", "03")
@@ -72,4 +77,9 @@ for(i in 1:length(month.name)){
         family="sans", width=8, height=8)
     print(gg)
     dev.off()
+    png(file=paste0(file.name, "_network_at", year,"-",month.name[i], ".png"),
+        width = 465, height = 325, units='mm', res = 300)
+    print(gg)
+    dev.off()
+    
 }

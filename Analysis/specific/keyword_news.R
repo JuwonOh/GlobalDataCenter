@@ -33,7 +33,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("news_data.RData")
 input_data <- news_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/news"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/news"
 subtitle = "2018.7 - 2019.3"
 input = "News"
 
@@ -65,43 +65,10 @@ pdf(file=paste0(file.name, "_totalfreq.pdf"),
     family="sans", width=12, height=8)
 p0
 dev.off()
-
-#########################
-## unigram keyword
-#########################
-input_unigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 1) %>%
-  filter(!ngram %in% stop_words$word) %>%
-  mutate(stemmed = wordStem(ngram))
-
-input_unigrams_by_article <- input_unigrams %>%
-  count(id_row, ngram) %>%
-  bind_tf_idf(ngram, id_row, n) %>%
-  arrange(desc(tf_idf)) %>%
-  left_join(input_data[,c("id_row","year","month", "date")]) %>%
-  group_by(year, month, ngram) %>%
-  mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
-  ungroup()
-
-#########################
-## bigram keyword
-#########################
-input_bigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 2) %>%
-  separate(ngram, c("word1", "word2"), sep = " ") %>%
-  filter(!word1 %in% stop_words$word) %>%
-  filter(!word2 %in% stop_words$word) %>%
-  unite(ngram, word1, word2, sep = " ")
-
-input_bigrams_by_article <- input_bigrams %>%
-  count(id_row, ngram) %>%
-  bind_tf_idf(ngram, id_row, n) %>%
-  arrange(desc(tf_idf)) %>%
-  left_join(input_data[,c("id_row","year","month", "date")]) %>%
-  group_by(year, month, ngram) %>%
-  mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
-    ungroup()
-
+png(file=paste0(file.name, "_totalfreq.png"),
+    width = 465, height = 325, units='mm', res = 300)
+print(p0)
+dev.off()
 
 ## keyword_execution
 if(Sys.getenv("LOGNAME") == "park"){

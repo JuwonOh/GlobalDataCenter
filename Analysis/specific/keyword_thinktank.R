@@ -30,13 +30,12 @@ if(Sys.getenv("LOGNAME") == "park"){
 #########################
 ## Data
 #########################
-load("government_data.RData")
-input_data <- goverment_data
+load("thinktank_data.RData")
+input_data <- thinktank_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/government"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/thinktank"
 subtitle = "2018.7 - 2019.3"
-input = "Government"
-
+input = "Thinktank"
 
 #########################
 ## total frequency plot
@@ -46,11 +45,7 @@ monthly_n <- input_data %>%
   group_by(year, month, source) %>%
   count() %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
-    ungroup()%>% mutate(source = recode(source, dod = "Dept. of Defense",
-                                         dos = "Dept. of State",
-                                        ustr = "USTR",
-                                        whitehouse = "White House"
-                                         ))
+    ungroup()
 
 title = paste0("Korea-related ", input,  " Article Frequency") ; 
 p0 <- ggplot(monthly_n) + 
@@ -64,6 +59,10 @@ p0 <- ggplot(monthly_n) +
 pdf(file=paste0(file.name, "_totalfreq.pdf"),
     family="sans", width=12, height=8)
 p0
+dev.off()
+png(file=paste0(file.name, "_totalfreq.png"),
+    width = 465, height = 325, units='mm', res = 300)
+print(p0)
 dev.off()
 
 #########################
@@ -102,7 +101,9 @@ input_bigrams_by_article <- input_bigrams %>%
   mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
     ungroup()
 
+#########################
 ## keyword_execution
+#########################
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/keyword_execution.R")
 

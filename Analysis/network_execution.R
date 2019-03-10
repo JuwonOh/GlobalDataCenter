@@ -1,44 +1,8 @@
 #########################
-## SNU Global Data Center
-## 2019 March
-## Sooahn Shin & JONG HEE PARK
-#########################
-rm(list=ls())
-
-#########################
-## package loading
-#########################
-library(tidyverse)
-library(tidytext)
-library(SnowballC)
-library(udpipe)
-library(lattice)
-library(wesanderson)
-library(ggraph)
-
-#########################
-## user specific working directory setup
-#########################
-if(Sys.getenv("LOGNAME") == "park"){
-    setwd("~/Dropbox/BigDataDiplomacy/Code/2019/Analysis")
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/preprocess_functions.R")
-
-}else{
-    setwd("~/Dropbox/GlobalDataCenter/Analysis")
-    source("preprocess_functions.R")
-}
-#########################
-## Data
-#########################
-load("thinktank_data.RData")
-input_data <- thinktank_data
-month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/thinktank"
+month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02", "03")
 subtitle = "2018.7 - 2019.3"
-input = "Thinktank"
-#########################
-udmodel_english <- udpipe_load_model(file = 'english-ud-2.0-170801.udpipe')
 
+udmodel_english <- udpipe_load_model(file = 'english-ud-2.0-170801.udpipe')
 input_data$title_prep <- prep_fun(input_data$title)
 input_data$title_prep <- prep_fun2(input_data$title_prep)
 input_data$title_prep[1:3]
@@ -57,9 +21,13 @@ pdf(file=paste0(file.name, "_network_total.pdf"),
     family="sans", width=8, height=8)
 g1
 dev.off()
+png(file=paste0(file.name, "_network_total.png"),
+    width = 205, height = 205, units='mm', res = 150)
+print(g1)
+dev.off()
+
 
 ### title - monthly
-month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02", "03")
 
 for(i in 1:length(month.name)){
     year <- ifelse(i > 6, "2019", "2018")
@@ -72,4 +40,9 @@ for(i in 1:length(month.name)){
         family="sans", width=8, height=8)
     print(gg)
     dev.off()
+    png(file=paste0(file.name, "_network_at", year,"-",month.name[i], ".png"),
+        width = 205, height = 205, units='mm', res = 150)
+    print(gg)
+    dev.off()
+    
 }

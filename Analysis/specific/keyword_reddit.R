@@ -33,7 +33,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("reddit_data.RData")
 input_data <- reddit_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/reddit"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/reddit"
 subtitle = "2018.7 - 2019.3"
 input = "Reddit"
 
@@ -62,6 +62,10 @@ p0 <- ggplot(monthly_n) +
 pdf(file=paste0(file.name, "_totalfreq.pdf"),
     family="sans", width=12, height=8)
 p0
+dev.off()
+png(file=paste0(file.name, "_totalfreq.png"),
+    width = 465, height = 325, units='mm', res = 300)
+print(p0)
 dev.off()
 
 #########################

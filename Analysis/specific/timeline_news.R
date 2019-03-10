@@ -32,12 +32,12 @@ if(Sys.getenv("LOGNAME") == "park"){
 #########################
 ## Data
 #########################
-load("government_data.RData")
-input_data <- government_data
+load("news_data.RData")
+input_data <- news_data
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/government"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/news"
 subtitle = "2018.7 - 2019.3"
-input = "Government"
+input = "News"
 
 
 #########################
@@ -86,7 +86,7 @@ df.bigram <- input_bigrams_by_article
 ## plot
 #########################
 ## leaders
-word.list <- c("jaein", "jinping", "abe | abe", "jungun")
+word.list <- c("moonjaein", "jinping", "abe | abe", "kimjungun")
 p.list = lapply(1:length(word.list), function(i) {
     df.bigram %>% filter(str_detect(ngram, word.list[i]))%>%
         ## filter(ngram%in% word.list[[i]]) %>%
@@ -109,6 +109,11 @@ for(i in 1:length(word.list)){
         width = 12, height = 7)
     print(p.list[[i]])
     dev.off()
+    png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
+    print(p.list[[i]])
+    dev.off()
+
 }
 
 ## iran is outstanding!
@@ -133,6 +138,10 @@ p.list = lapply(1:length(word.list), function(i) {
 for(i in 1:length(word.list)){
     pdf(file=paste0(file.name, "_", word.list[[i]], "_bigram.pdf"), family="sans",
         width = 12, height = 10)
+    print(p.list[[i]])
+    dev.off()
+    png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
     print(p.list[[i]])
     dev.off()
 }
@@ -161,6 +170,11 @@ for(i in 1:length(word.list)){
         width = 16, height = 10)
     print(p.list[[i]])
     dev.off()
+        png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
+    print(p.list[[i]])
+    dev.off()
+    
 }
 
 
@@ -188,5 +202,10 @@ for(i in 1:length(word.list)){
         width = 12, height = 8)
     print(p.list[[i]])
     dev.off()
+        png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
+    print(p.list[[i]])
+    dev.off()
+
 }
 

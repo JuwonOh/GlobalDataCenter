@@ -32,20 +32,20 @@ if(Sys.getenv("LOGNAME") == "park"){
 #########################
 ## Data
 #########################
-load("news_data.RData")
-input_data <- news_data
+load("reddit_data.RData")
+input_data <- as_tibble(reddit_data)
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
-file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/news"
+file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/reddit"
 subtitle = "2018.7 - 2019.3"
-input = "News"
-
+input = "Reddit"
+## note that unnest_tokens.data.frame(, collapse = F)!!!!
 
 #########################
 ## corpus prep
 #########################
 ## unigram keyword
 input_unigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 1) %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 1, collapse = F) %>%
   filter(!ngram %in% stop_words$word) %>%
   mutate(stemmed = wordStem(ngram))
 
@@ -62,7 +62,7 @@ input_unigrams_by_article <- input_unigrams %>%
 
 ## bigram keyword
 input_bigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 2) %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 2, collapse = F) %>%
   separate(ngram, c("word1", "word2"), sep = " ") %>%
   filter(!word1 %in% stop_words$word) %>%
   filter(!word2 %in% stop_words$word) %>%
@@ -86,13 +86,15 @@ df.bigram <- input_bigrams_by_article
 ## plot
 #########################
 ## leaders
-word.list <- c("moonjaein", "jinping", "abe | abe", "kimjungun")
+df.bigram$date <- as.Date(paste(df.bigram$date,"-01",sep=""))
+
+word.list <- c("jaein", "jinping", "abe | abe", "jungun")
 p.list = lapply(1:length(word.list), function(i) {
     df.bigram %>% filter(str_detect(ngram, word.list[i]))%>%
         ## filter(ngram%in% word.list[[i]]) %>%
         select(date, n_month, ngram) %>%
         distinct() %>%
-        ggplot(., aes(x=as.Date(date), y=n_month, color=ngram), group=ngram) + 
+        ggplot(., aes(x=date, y=n_month, color=ngram), group=ngram) + 
         geom_point(size=2, alpha=0.9) +
         scale_x_date(date_minor_breaks = "1 day", date_labels = "%Y-%m") +
         xlab("Month") + ylab("Absolute Frequency") +
@@ -106,9 +108,14 @@ p.list = lapply(1:length(word.list), function(i) {
 })
 for(i in 1:length(word.list)){
     pdf(file=paste0(file.name, "_", word.list[[i]], "_bigram.pdf"), family="sans",
-        width = 12, height = 7)
+        width = 8, height = 6)
     print(p.list[[i]])
     dev.off()
+    png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 265, height = 125, units='mm', res = 300)
+    print(p.list[[i]])
+    dev.off()
+
 }
 
 ## iran is outstanding!
@@ -132,9 +139,14 @@ p.list = lapply(1:length(word.list), function(i) {
 })
 for(i in 1:length(word.list)){
     pdf(file=paste0(file.name, "_", word.list[[i]], "_bigram.pdf"), family="sans",
-        width = 12, height = 10)
+        width = 8, height = 6)
     print(p.list[[i]])
     dev.off()
+        png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 265, height = 125, units='mm', res = 300)
+    print(p.list[[i]])
+    dev.off()
+
 }
 
 ## nuclear weapons is outstanding!
@@ -158,7 +170,7 @@ p.list = lapply(1:length(word.list), function(i) {
 })
 for(i in 1:length(word.list)){
     pdf(file=paste0(file.name, "_", word.list[[i]], "_bigram.pdf"), family="sans",
-        width = 16, height = 10)
+        width = 8, height = 6)
     print(p.list[[i]])
     dev.off()
 }
@@ -185,8 +197,13 @@ p.list = lapply(1:length(word.list), function(i) {
 })
 for(i in 1:length(word.list)){
     pdf(file=paste0(file.name, "_", word.list[[i]], "_bigram.pdf"), family="sans",
-        width = 12, height = 8)
+       width = 8, height = 6)
     print(p.list[[i]])
     dev.off()
+        png(file=paste0(file.name, "_", word.list[[i]], "_bigram.png"), family="sans",
+        width = 265, height = 125, units='mm', res = 300)
+    print(p.list[[i]])
+    dev.off()
+
 }
 

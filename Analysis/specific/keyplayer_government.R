@@ -13,6 +13,8 @@ library(lattice)
 library(wesanderson)
 library(ggraph)
 library(igraph)
+library(ggnet)
+require(sna)
 
 #########################
 ## user specific working directory setup
@@ -75,8 +77,6 @@ dev.off()
 #############################
 ## black and vertex attributes
 #############################
-library(ggnet)
-require(sna)
 
 net = network(cooc_matrix, directed = FALSE)
 names = keyplayers$name
@@ -96,6 +96,10 @@ gg <- ggnet2(net, color="color", size = "degree", label = TRUE, label.size = 3,
     labs(title=title, subtitle=subtitle, caption = "Copyright: SNU IIS Global Data Center")
 
 pdf(file=paste0(file.name, "_network_black.pdf"), family="sans", width=14, height=10)
+print(gg)
+dev.off()
+png(file=paste0(file.name, "_network_black.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
 print(gg)
 dev.off()
 
@@ -154,7 +158,32 @@ multiplot(gg.multi[[1]], gg.multi[[2]],
           ## gg.multi[[20+1]], gg.multi[[20+2]], gg.multi[[20+3]], gg.multi[[20+4]],
           cols = 2)
 dev.off()
+png(file=paste0(file.name, "_network_montly1.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
+multiplot(gg.multi[[1]], gg.multi[[2]],
+          gg.multi[[3]], gg.multi[[4]],
+          ## gg.multi[[4+1]], gg.multi[[4+2]], gg.multi[[4+3]], gg.multi[[4+4]],
+          ## gg.multi[[8+1]], gg.multi[[8+2]], ## gg.multi[[8+3]], ## gg.multi[[8+4]],
+          ## gg.multi[[12+1]], gg.multi[[12+2]], gg.multi[[12+3]], gg.multi[[12+4]],
+          ## gg.multi[[16+1]],
+          ##gg.multi[[16+2]], gg.multi[[16+3]], gg.multi[[16+4]],
+          ## gg.multi[[20+1]], gg.multi[[20+2]], gg.multi[[20+3]], gg.multi[[20+4]],
+          cols = 2)
+dev.off()
+
 pdf(file = paste0(file.name, "_network_montly2.pdf"), width=10, height=8, family="sans")
+multiplot(## gg.multi[[1]], gg.multi[[2]],
+          ## gg.multi[[3]], gg.multi[[4]],
+          gg.multi[[4+1]], gg.multi[[4+2]], gg.multi[[4+3]], gg.multi[[4+4]],
+          ## gg.multi[[8+1]], gg.multi[[8+2]], ## gg.multi[[8+3]], ## gg.multi[[8+4]],
+          ## gg.multi[[12+1]], gg.multi[[12+2]], gg.multi[[12+3]], gg.multi[[12+4]],
+          ## gg.multi[[16+1]],
+          ##gg.multi[[16+2]], gg.multi[[16+3]], gg.multi[[16+4]],
+          ## gg.multi[[20+1]], gg.multi[[20+2]], gg.multi[[20+3]], gg.multi[[20+4]],
+          cols = 2)
+dev.off()
+png(file=paste0(file.name, "_network_montly2.png"), family="sans",
+        width = 365, height = 225, units='mm', res = 300)
 multiplot(## gg.multi[[1]], gg.multi[[2]],
           ## gg.multi[[3]], gg.multi[[4]],
           gg.multi[[4+1]], gg.multi[[4+2]], gg.multi[[4+3]], gg.multi[[4+4]],

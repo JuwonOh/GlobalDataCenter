@@ -2,6 +2,59 @@
 ## functions to execute plotting codes
 ## Run this after keyword_*****.R
 ##################################################
+title = paste0("Korea-related ", input,  " Article Frequency") ; 
+p0 <- ggplot(monthly_n) + 
+    geom_bar(aes(x=date, y=n), stat="identity", alpha=0.2) +
+    geom_line(aes(x=date, y=n, alpha=source, col=source), size=1) +
+    geom_point(aes(x=date, y=n, size=source, col=source), alpha=0.6) +
+    scale_shape_manual(values = c(1:length(unique(monthly_n$source)))) +
+    scale_x_date(date_breaks = "months" , date_labels = "%Y-%b") + 
+    labs(title=title, subtitle = subtitle, y = "Absolute Frequency", x="Month", 
+         caption = "Copyright: SNU IIS Global Data Center")
+pdf(file=paste0(file.name, "_totalfreq.pdf"),
+    family="sans", width=12, height=8)
+p0
+dev.off()
+png(file=paste0(file.name, "_totalfreq.png"),
+    width = 205, height = 205, units='mm', res = 150)
+print(p0)
+dev.off()
+
+########################
+## unigram keyword
+#########################
+input_unigrams <- input_data %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 1) %>%
+  filter(!ngram %in% stop_words$word) %>%
+  mutate(stemmed = wordStem(ngram))
+
+input_unigrams_by_article <- input_unigrams %>%
+  count(id_row, ngram) %>%
+  bind_tf_idf(ngram, id_row, n) %>%
+  arrange(desc(tf_idf)) %>%
+  left_join(input_data[,c("id_row","year","month", "date")]) %>%
+  group_by(year, month, ngram) %>%
+  mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
+  ungroup()
+
+#########################
+## bigram keyword
+#########################
+input_bigrams <- input_data %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 2) %>%
+  separate(ngram, c("word1", "word2"), sep = " ") %>%
+  filter(!word1 %in% stop_words$word) %>%
+  filter(!word2 %in% stop_words$word) %>%
+  unite(ngram, word1, word2, sep = " ")
+
+input_bigrams_by_article <- input_bigrams %>%
+  count(id_row, ngram) %>%
+  bind_tf_idf(ngram, id_row, n) %>%
+  arrange(desc(tf_idf)) %>%
+  left_join(input_data[,c("id_row","year","month", "date")]) %>%
+  group_by(year, month, ngram) %>%
+  mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
+    ungroup()
 
 
 #########################
@@ -39,7 +92,11 @@ p01 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
 
 pdf(file=paste0(file.name, "_top40unigram_absolute.pdf"),
     family="sans", width=16, height=15)
-p01
+print(p01)
+dev.off()
+png(file=paste0(file.name, "_top40unigram_absolute.png"),
+    width = 365, height = 225, units='mm', res = 150)
+print(p01)
 dev.off()
 
 ## relative frequency
@@ -74,9 +131,12 @@ p02 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
     coord_flip()
 pdf(file=paste0(file.name, "_top40unigram_relative.pdf"),
     family="sans", width=16, height=15)
-p02
+print(p02)
 dev.off()
-
+png(file=paste0(file.name, "_top40unigram_relative.png"),
+    width = 365, height = 225, units='mm', res = 150)
+print(p02)
+dev.off()
 
 #########################
 ## top 40 bigram plot
@@ -112,9 +172,12 @@ p1 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +
     coord_flip()
 pdf(file=paste0(file.name, "_top40bigram_absolute.pdf"),
     family="sans",width=16, height=15)
-p1
+print(p1)
 dev.off()
-
+png(file=paste0(file.name, "_top40bigram_absolute.png"),
+    width = 365, height = 225, units='mm', res = 150)
+print(p1)
+dev.off()
 #########################
 ### top 40 bigram relative frequency
 #########################
@@ -164,6 +227,10 @@ p12 <- ggplot(pd, aes(order, tf_idf_month, fill = factor(month))) +
 ## library(gridExtra)
 pdf(file=paste0(file.name, "_top40bigram_relative.pdf"),
     family="sans", width=16, height=15)
-p12 ## do.call(grid.arrange, c(p.list, nrow=2))
+print(p12)
+ ## do.call(grid.arrange, c(p.list, nrow=2))
 dev.off()
-
+png(file=paste0(file.name, "_top40bigram_relative.png"),
+    width = 365, height = 225, units='mm', res = 150)
+print(p12)
+dev.off()
