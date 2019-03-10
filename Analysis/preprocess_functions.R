@@ -1,3 +1,58 @@
+### function
+## draw network plot for coocurrence of figures
+coocNetworkPlot <- function(mat,  # cooccurence matrix
+                            lb=10, # lower bound for coocurrence
+                            layout = "nicely", default.node.size = 1, 
+                            title=NULL, subtitle=NULL) {
+    ## set_graph_style(plot_margin = margin(1,1,1,1))
+    Fig <- as.data.frame(as.table(mat))
+    Fig.freq <- Fig %>% filter(Var1==Var2)
+    Fig <- Fig %>% filter(Var1!=Var2)
+    colnames(Fig) <- c("figure1", "figure2","cooc")
+    
+    Fig <- Fig %>% filter(cooc>lb) 
+    Fig.graph <- Fig %>% graph_from_data_frame()
+    
+    size.vertex <- Fig.freq %>% filter(Var1 %in% V(Fig.graph)$name) 
+    size.vertex <- size.vertex[order(match(size.vertex$Var1, V(Fig.graph)$name)),]
+    size.vertex <- size.vertex %>% select(Freq) %>% unlist()
+    
+                                        # col.vertex <- figures %>% filter(name %in% V(Fig.graph)$name)
+                                        # col.vertex <- col.vertex[order(match(col.vertex$name, V(Fig.graph)$name)),]
+                                        # col.vertex <- col.vertex %>% select(type) %>% unlist()
+    
+    if(layout=="linear"){
+        plot <- Fig.graph %>%
+            ggraph(layout = layout, circular="TRUE") +
+            geom_edge_link(aes(width = cooc, edge_alpha = cooc), edge_colour = "grey") +
+            geom_node_point(aes(size=size.vertex), col="brown", alpha=0.4) +
+            ## geom_node_point(aes(size=size.vertex, col=col.vertex),alpha=0.4) +
+            geom_node_text(aes(size=round(4*size.vertex/max(size.vertex) + default.node.size),
+                               label = name), col="royalblue", alpha=0.9) +
+            theme_graph(base_family = "sans") +
+             theme_graph(base_family = "sans") +
+            theme(legend.position = "none") +
+            scale_size(range = c(5, 15)) +
+            ## scale_color_manual(values =c("black","orange","blue","red")) +
+            scale_edge_width(range = c(0.5, 5)) + scale_edge_alpha(range = c(0.4, 0.6)) +
+            labs(title=title, subtitle = subtitle, caption = "Copyright: SNU IIS Global Data Center")
+    }else{
+        plot <- Fig.graph %>%
+            ggraph(layout = layout) +
+            geom_edge_link(aes(width = cooc, edge_alpha = cooc), edge_colour = "grey") +
+            geom_node_point(aes(size=size.vertex),col="brown", alpha=0.4) +
+            ## geom_node_point(aes(size=size.vertex, col=col.vertex),alpha=0.4) +
+            geom_node_text(aes(size=round(4*size.vertex/max(size.vertex) + default.node.size),
+                               label = name), col="royalblue", alpha=0.9) +
+            theme_graph(base_family = "sans") +
+            theme(legend.position = "none") +
+            scale_size(range = c(5, 15)) +
+            ## scale_color_manual(values =c("black","orange","blue","red")) +
+            scale_edge_width(range = c(0.5, 5)) + scale_edge_alpha(range = c(0.4, 0.6)) +
+            labs(title=title, subtitle = subtitle, caption = "Copyright: SNU IIS Global Data Center")
+    }
+    return(plot)
+}
 
 ### function
 coocurrence_data <- function(input) {
@@ -32,8 +87,10 @@ network_graph <- function(cooc_data,
     plot <- ggraph(wordnetwork2, layout = "fr") +
         geom_edge_link(aes(edge_alpha = cooc), 
                        edge_colour = edge.col)  +
-        geom_node_text(aes(label = name), col = text.col, size = 4*vert$size/max(vert$size) + default.text.size) +
-        geom_node_point(size = 7*vert$size/max(vert$size) + default.node.size, col= "royalblue", alpha=0.2) +
+        geom_node_text(aes(label = name), col = text.col, size = 4*vert$size/max(vert$size) +
+                                                              default.text.size) +
+        geom_node_point(size = 7*vert$size/max(vert$size) + default.node.size, col= "royalblue",
+                        alpha=0.2) +
         scale_size(range = c(4, 60), guide = 'none') + 
         theme_graph(base_family = "sans") +
         theme(legend.position = "none") +
