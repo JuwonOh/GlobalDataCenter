@@ -1,12 +1,11 @@
-
-if(input == "Reddit"){
+collapse.input <- ifelse(input == "Reddit",F,T)
     
 #########################
 ## corpus prep
 #########################
 ## unigram keyword
 input_unigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 1, collapse = F) %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 1, collapse = collapse.input) %>%
   filter(!ngram %in% stop_words$word) %>%
   mutate(stemmed = wordStem(ngram))
 
@@ -23,47 +22,7 @@ input_unigrams_by_article <- input_unigrams %>%
 
 ## bigram keyword
 input_bigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 2, collapse = F) %>%
-  separate(ngram, c("word1", "word2"), sep = " ") %>%
-  filter(!word1 %in% stop_words$word) %>%
-  filter(!word2 %in% stop_words$word) %>%
-  unite(ngram, word1, word2, sep = " ")
-
-input_bigrams_by_article <- input_bigrams %>%
-    count(id_row, ngram) %>%
-    bind_tf_idf(ngram, id_row, n) %>%
-    arrange(desc(tf_idf)) %>%
-    left_join(input_data[,c("id_row","year","month", "date")]) %>%
-    group_by(date,ngram) %>%
-    mutate(n_date = n(), tf_idf_date = sum(tf_idf)) %>%
-    group_by(year, month, ngram) %>%
-    mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
-    ungroup()
-
-}else{
-#########################
-## corpus prep
-#########################
-## unigram keyword
-input_unigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 1) %>%
-  filter(!ngram %in% stop_words$word) %>%
-  mutate(stemmed = wordStem(ngram))
-
-input_unigrams_by_article <- input_unigrams %>%
-  count(id_row, ngram) %>%
-  bind_tf_idf(ngram, id_row, n) %>%
-  arrange(desc(tf_idf)) %>%
-  left_join(input_data[,c("id_row","year","month", "date")]) %>%
-  group_by(date,ngram) %>%
-  mutate(n_date = n(), tf_idf_date = sum(tf_idf)) %>%
-  group_by(year, month, ngram) %>%
-  mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
-  ungroup()
-
-## bigram keyword
-input_bigrams <- input_data %>%
-  unnest_tokens(ngram, text, token = "ngrams", n = 2) %>%
+  unnest_tokens(ngram, text, token = "ngrams", n = 2, collapse = collapse.input) %>%
   separate(ngram, c("word1", "word2"), sep = " ") %>%
   filter(!word1 %in% stop_words$word) %>%
   filter(!word2 %in% stop_words$word) %>%
@@ -79,7 +38,6 @@ input_bigrams_by_article <- input_bigrams %>%
     group_by(year, month, ngram) %>%
     mutate(n_month = n(), tf_idf_month = sum(tf_idf)) %>%
     ungroup()
-}
 
 df.all <- rbind(input_unigrams_by_article, input_bigrams_by_article) 
 df.unigram <- input_unigrams_by_article
