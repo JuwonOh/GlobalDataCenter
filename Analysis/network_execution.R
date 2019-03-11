@@ -9,8 +9,8 @@ input_data$title_prep[1:3]
 
 ### title - entire period
 cooc_data <- coocurrence_data(input_data$title_prep)
-g1 <- network_graph(cooc_data, cut.point = 120, 
-                    title = "Cooccurrence Network", 
+g1 <- network_graph(cooc_data, cut.point = cut.point, 
+                    title = paste0("Cooccurrence Network in ", input), 
                     subtitle = subtitle,
                     edge.col = "#FF0000",
                     text.col = "#35274A",
@@ -32,8 +32,8 @@ dev.off()
 for(i in 1:length(month.name)){
     year <- ifelse(i > 6, "2019", "2018")
     cooc_data <- coocurrence_data(input_data$title_prep[input_data$month==month.name[i]])
-    gg <- network_graph(cooc_data, cut.point = 60, 
-                        title = paste0("Cooccurrence Network: ", year, "-", month.name[i]), 
+    gg <- network_graph(cooc_data, cut.point = cut.point, 
+                        title = paste0("Cooccurrence Network in ", input, " at ", year, "-", month.name[i]), 
                         default.text.size = 3,
                         default.node.size= 5)
     pdf(file=paste0(file.name, "_network_at", year,"-",month.name[i], ".pdf"),

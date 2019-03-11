@@ -20,7 +20,7 @@ Type 'q()' to quit R.
 [Previously saved workspace restored]
 
 
-Successfully loaded .Rprofile at Sun Mar 10 16:48:55 2019 
+Successfully loaded .Rprofile at Mon Mar 11 14:30:53 2019 
 R > #########################
 R > ## SNU Global Data Center
 R > ## 2019 March
@@ -66,14 +66,17 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 +     source("preprocess_functions.R")
 + }
 R > 
+R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+R > subtitle = "2018.7 - 2019.3"
+R > cut.point = 10
+R > 
+R > 
 R > #########################
 R > ## Data 1
 R > #########################
 R > load("news_data.RData")
 R > input_data <- news_data
-R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/news"
-R > subtitle = "2018.7 - 2019.3"
 R > input = "News"
 R > 
 R > ## monthly count
@@ -93,20 +96,33 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 + }else{
 +     source("keyword_execution.R")
 + }
+
+Attaching package: ‘gridExtra’
+
+The following object is masked from ‘package:dplyr’:
+
+    combine
+
+
+Attaching package: ‘kableExtra’
+
+The following object is masked from ‘package:dplyr’:
+
+    group_rows
+
 Joining, by = "id_row"
 Joining, by = "id_row"
 Warning messages:
-1: Using alpha for a discrete variable is not advised. 
-2: Using size for a discrete variable is not advised. 
+1: package ‘kableExtra’ was built under R version 3.5.2 
+2: Using alpha for a discrete variable is not advised. 
+3: Using size for a discrete variable is not advised. 
 R > 
 R > #########################
 R > ## Data 2
 R > #########################
 R > load("thinktank_data.RData")
 R > input_data <- thinktank_data
-R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/thinktank"
-R > subtitle = "2018.7 - 2019.3"
 R > input = "Thinktank"
 R > 
 R > ## monthly count
@@ -115,6 +131,8 @@ R > monthly_n <- input_data %>%
 +   count() %>%
 +     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
 +     ungroup()
+R > 
+R > 
 R > ## keyword_execution
 R > if(Sys.getenv("LOGNAME") == "park"){
 +     source("~/Github/Sooahn/GlobalDataCenter/Analysis/keyword_execution.R")
@@ -124,7 +142,9 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 + }
 Joining, by = "id_row"
 Joining, by = "id_row"
-There were 50 or more warnings (use warnings() to see the first 50)
+Warning messages:
+1: Using alpha for a discrete variable is not advised. 
+2: Using size for a discrete variable is not advised. 
 R > 
 R > 
 R > #########################
@@ -132,9 +152,7 @@ R > ## Data 3
 R > #########################
 R > load("government_data.RData")
 R > input_data <- goverment_data
-R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/government"
-R > subtitle = "2018.7 - 2019.3"
 R > input = "Government"
 R > 
 R > ## monthly count
@@ -165,9 +183,7 @@ R > ## Data
 R > #########################
 R > load("reddit_data.RData")
 R > input_data <- reddit_data
-R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/reddit"
-R > subtitle = "2018.7 - 2019.3"
 R > input = "Reddit"
 R > 
 R > ## monthly count
@@ -184,11 +200,11 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 + }else{
 +     source("keyword_execution.R")
 + }
-Don't know how to automatically pick scale for object of type function. Defaulting to continuous.
-Don't know how to automatically pick scale for object of type function. Defaulting to continuous.
-Error: All columns in a tibble must be 1d or 2d objects:
-* Column `alpha` is function
-* Column `colour` is function
-In addition: Warning message:
-Unknown or uninitialised column: 'source'. 
-Execution halted
+Joining, by = "id_row"
+Joining, by = "id_row"
+R > 
+
+Goodbye at  Mon Mar 11 14:33:30 2019 
+> proc.time()
+   user  system elapsed 
+146.343   7.105 157.790 

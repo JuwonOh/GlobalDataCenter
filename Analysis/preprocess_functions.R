@@ -79,7 +79,7 @@ network_graph <- function(cooc_data,
                           text.col = "#35274A",
                           default.text.size = 1,
                           default.node.size= 5) {
-    wordnetwork <- cooc_data %>% top_n(cut.point, wt=cooc)
+    wordnetwork <- cooc_data %>% top_n(cut.point, wt=jitter(cooc))
     vert <- data.frame(node = names(table(c(wordnetwork$term1, wordnetwork$term2))),
                        size = as.vector(table(c(wordnetwork$term1, wordnetwork$term2))))
 

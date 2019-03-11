@@ -20,7 +20,7 @@ Type 'q()' to quit R.
 [Previously saved workspace restored]
 
 
-Successfully loaded .Rprofile at Sun Mar 10 16:58:11 2019 
+Successfully loaded .Rprofile at Sun Mar 10 17:26:27 2019 
 R > #########################
 R > ## SNU Global Data Center
 R > ## 2019 March
@@ -96,10 +96,66 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 + }
 Joining, by = "id_row"
 Joining, by = "id_row"
-Error in source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R") : 
-  ~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R:3:77: unexpected symbol
-2: p.list = lapply(1:length(word.list), function(i) {
-3:         title = paste0("Bigram Words Related with ", word.list[[i]], " in " input
-                                                                               ^
-Calls: source -> withVisible -> eval -> eval -> source
+R > #########################
+R > ## Data 2
+R > #########################
+R > load("government_data.RData")
+R > input_data <- government_data
+R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/government"
+R > subtitle = "2018.7 - 2019.3"
+R > input = "Government"
+R > 
+R > ## timeline_execution
+R > if(Sys.getenv("LOGNAME") == "park"){
++     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
++ 
++ }else{
++     source("timeline_execution.R")
++ }
+Joining, by = "id_row"
+Joining, by = "id_row"
+There were 50 or more warnings (use warnings() to see the first 50)
+R > #########################
+R > ## Data 3
+R > #########################
+R > load("thinktank_data.RData")
+R > input_data <- thinktank_data
+R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/thinktank"
+R > subtitle = "2018.7 - 2019.3"
+R > input = "Thinktank"
+R > 
+R > ## timeline_execution
+R > if(Sys.getenv("LOGNAME") == "park"){
++     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
++ 
++ }else{
++     source("timeline_execution.R")
++ }
+Joining, by = "id_row"
+Joining, by = "id_row"
+There were 50 or more warnings (use warnings() to see the first 50)
+R > 
+R > #########################
+R > ## Data 4
+R > #########################
+R > load("reddit_data.RData")
+R > input_data <- as_tibble(reddit_data)
+R > month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/timeline/reddit"
+R > subtitle = "2018.7 - 2019.3"
+R > input = "Reddit"
+R > ## note that unnest_tokens.data.frame(, collapse = F)!!!!
+R > 
+R > ## timeline_execution
+R > if(Sys.getenv("LOGNAME") == "park"){
++     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
++ 
++ }else{
++     source("timeline_execution.R")
++ }
+Error in unnest_tokens.data.frame(., ngram, text, token = "ngrams", n = 1) : 
+  If collapse = TRUE (such as for unnesting by sentence or paragraph), unnest_tokens needs all input columns to be atomic vectors (not lists)
+Calls: source ... <Anonymous> -> unnest_tokens -> unnest_tokens.data.frame
 Execution halted

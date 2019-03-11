@@ -29,6 +29,8 @@ if(Sys.getenv("LOGNAME") == "park"){
 
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
 subtitle = "2018.7 - 2019.3"
+cut.point = 10
+
 
 #########################
 ## Data 1
@@ -70,6 +72,8 @@ monthly_n <- input_data %>%
   count() %>%
     mutate(date = as.Date(paste0(year, month, "01"),"%Y%m%d")) %>%
     ungroup()
+
+
 ## keyword_execution
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/keyword_execution.R")

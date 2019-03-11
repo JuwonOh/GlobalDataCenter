@@ -27,7 +27,8 @@ if(Sys.getenv("LOGNAME") == "park"){
     setwd("~/Dropbox/GlobalDataCenter/Analysis")
     source("preprocess_functions.R")
 }
-
+time.stamp <- c(paste0("2018-", 7:12), paste0("2019-", 1:3))
+cut.point = 100 ## top 50 players only
 
 #########################
 ## Data 1
@@ -35,7 +36,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 load("news_data.RData")
 load("keyplayers.RData") ## 526 key players
 input_data <- news_data
-month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02" )
+month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02", "03" )
 file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyplayer_network/news"
 subtitle = "2018.7 - 2019.3"
 input = "News"

@@ -35,6 +35,8 @@ load("news_data.RData")
 file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/news"
 subtitle = "2018.7 - 2019.3"
 input_data <- news_data
+input = "News"
+cut.point = 50
 
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){
@@ -68,6 +70,7 @@ input_data <- goverment_data
 file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/government"
 input = "Government"
 
+
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
@@ -83,6 +86,7 @@ load("reddit_data.RData")
 file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/reddit"
 subtitle = "2018.7 - 2019.3"
 input_data <- reddit_data
+input = "Reddit"
 
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){

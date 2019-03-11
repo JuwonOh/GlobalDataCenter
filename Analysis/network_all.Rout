@@ -20,7 +20,7 @@ Type 'q()' to quit R.
 [Previously saved workspace restored]
 
 
-Successfully loaded .Rprofile at Sun Mar 10 16:22:35 2019 
+Successfully loaded .Rprofile at Mon Mar 11 13:42:26 2019 
 R > #########################
 R > ## SNU Global Data Center
 R > ## 2019 March
@@ -68,12 +68,14 @@ R > if(Sys.getenv("LOGNAME") == "park"){
 + }
 R > 
 R > #########################
-R > ## Data
+R > ## Data 1
 R > #########################
 R > load("news_data.RData")
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/news"
 R > subtitle = "2018.7 - 2019.3"
 R > input_data <- news_data
+R > input = "News"
+R > cut.point = 50
 R > 
 R > ## network_execution
 R > if(Sys.getenv("LOGNAME") == "park"){
@@ -148,6 +150,7 @@ R > input_data <- goverment_data
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/government"
 R > input = "Government"
 R > 
+R > 
 R > ## network_execution
 R > if(Sys.getenv("LOGNAME") == "park"){
 +     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
@@ -183,6 +186,7 @@ R > load("reddit_data.RData")
 R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/reddit"
 R > subtitle = "2018.7 - 2019.3"
 R > input_data <- reddit_data
+R > input = "Reddit"
 R > 
 R > ## network_execution
 R > if(Sys.getenv("LOGNAME") == "park"){
