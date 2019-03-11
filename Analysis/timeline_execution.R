@@ -92,7 +92,8 @@ df.bigram$date <- as.Date(paste(df.bigram$date,"-01",sep=""))
 ## plot
 #########################
 ## leaders
-word.list <- c("moonjaein", "jinping", "abe | abe", "kimjungun")
+word.list <- c("moonjaein", "jinping", "abe", "kimjongun")
+word.sentiment <- c("neutral","neutral","neutral","neutral")
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
 
@@ -102,6 +103,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 
 ## iran is outstanding!
 word.list <- c("venezuela", "iran", "libya", "iraq")
+word.sentiment <- c("neutral","neutral","neutral","neutral")
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
 
@@ -111,6 +113,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 
 ## nuclear weapons is outstanding!
 word.list <- c("denuclearization", "missile", "uranium", "plutonium")
+word.sentiment <- c("positive","negative","negative","negative")
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
 
@@ -120,7 +123,8 @@ if(Sys.getenv("LOGNAME") == "park"){
 
 
 ## nuclear site
-word.list <- c("yongbyon", "sino | sino", "hidden site", "ballistic missile")
+word.list <- c("yongbyon", "sino", "hidden site", "ballistic missile")
+word.sentiment <- c("negative","negative","negative","negative")
 if(Sys.getenv("LOGNAME") == "park"){
     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
 
