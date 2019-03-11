@@ -63,6 +63,7 @@ dev.off()
 png(file=paste0(file.name, "_network_black.png"), family="sans",
         width = 465, height = 365, units='mm', res = 300)
 print(gg)
+
 dev.off()
 
 

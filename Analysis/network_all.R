@@ -3,7 +3,7 @@
 ## 2019 March
 ## Sooahn Shin & JONG HEE PARK
 #########################
-rm(list=ls())
+rm(list=ls()) 
 
 #########################
 ## package loading
@@ -14,7 +14,7 @@ library(SnowballC)
 library(udpipe)
 library(lattice)
 library(wesanderson)
-library(ggraph)
+library(ggraph) 
 
 #########################
 ## user specific working directory setup

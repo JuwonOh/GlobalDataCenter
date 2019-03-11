@@ -67,7 +67,7 @@ input_bigrams <- input_data %>%
   separate(ngram, c("word1", "word2"), sep = " ") %>%
   filter(!word1 %in% stop_words$word) %>%
   filter(!word2 %in% stop_words$word) %>%
-  unite(ngram, word1, word2, sep = " ")
+  unite(ngram, word1, word2, sep = " ") 
 
 input_bigrams_by_article <- input_bigrams %>%
     count(id_row, ngram) %>%

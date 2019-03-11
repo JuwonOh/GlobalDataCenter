@@ -1,10 +1,10 @@
 #########################
 month.name <- c("07" ,"08" ,"09" ,"10" ,"11" ,"12", "01", "02", "03")
-subtitle = "2018.7 - 2019.3"
+subtitle = "2018.7 - 2019.3" y
 
 udmodel_english <- udpipe_load_model(file = 'english-ud-2.0-170801.udpipe')
 input_data$title_prep <- prep_fun(input_data$title)
-input_data$title_prep <- prep_fun2(input_data$title_prep)
+input_data$title_prep <- prep_fun2(input_data$title_prep) 
 input_data$title_prep[1:3]
 
 ### title - entire period

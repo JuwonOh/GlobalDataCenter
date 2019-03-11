@@ -5,7 +5,7 @@
 library(ggplot2)
 library(ggforce)
 library(gridExtra)
-library(kableExtra)
+library(kableExtra)  
 
 title = paste0("Korea-related ", input,  " Article Frequency") ;
 if(input =="Reddit"){
@@ -33,7 +33,7 @@ if(input =="Reddit"){
     p0
     dev.off()
     png(file=paste0(file.name, "_totalfreq.png"),
-        width = 405, height = 365, units='mm', res = 150)
+        width = 205, height = 365, units='mm', res = 150)
     print(p0)
     dev.off()
 

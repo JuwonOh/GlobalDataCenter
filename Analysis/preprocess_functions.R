@@ -54,6 +54,7 @@ coocNetworkPlot <- function(mat,  # cooccurence matrix
     return(plot)
 }
 
+
 ### function
 coocurrence_data <- function(input) {
   cat("udpipe annotate start!\n")
