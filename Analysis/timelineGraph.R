@@ -1,4 +1,4 @@
-title = paste0("Words Related in ", input, " Articles") 
+title = paste0(input, " Articles: words start with") 
 
 word.list.count <- str_count(word.list, "\\S+")
 word.list.df <- sapply(word.list.count, function(x) ifelse(x==1,"df.unigram", "df.bigram"))
@@ -6,9 +6,13 @@ word.color <- sapply(word.sentiment, function(x) switch(x, "neutral"="darkgrey",
 
 plot.data <- list()
 for (i in 1:length(word.list)) {
-  plot.data[[i]] <- get(word.list.df[i]) %>% filter(str_detect(ngram, word.list[i])) %>%
-    mutate(word = word.list[i], sent = word.sentiment[i])
+  plot.data[[i]] <- get(word.list.df[i]) %>% filter(str_detect(ngram, paste0("^",word.list[i]))) %>%
+    mutate(word = word.list[i], sent = factor(word.sentiment[i], levels = c("negative","neutral","positive")))
 }
+
+myColors <- c("#F8766D","darkgrey","#00BFC4")
+names(myColors) <- c("negative","neutral","positive")
+
 plot.data <- do.call(rbind, plot.data)
 
 plot.data <- plot.data %>%
@@ -22,7 +26,7 @@ p <- plot.data %>%
   ggplot(., aes(x=as.Date(date), y=freq, group=word, color=sent, shape=word)) + 
   geom_point(size=2) +
   geom_line(size=1, alpha=0.6) +
-  scale_color_manual(breaks = c("negative","neutral","positive"), values=c("#F8766D","darkgrey","#00BFC4")) +
+  scale_color_manual(values=myColors) +
   scale_x_date(date_breaks = "1 month",date_minor_breaks = "1 day", date_labels = "%Y-%m") + 
   xlab("Month") + ylab("Absolute Frequency") +
   theme_minimal() + theme(legend.title = element_blank(),legend.position="top") +
