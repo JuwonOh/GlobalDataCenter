@@ -22,6 +22,9 @@ plot.data <- plot.data %>%
   mutate(date = paste0(year, "-" ,month,"-01"))
 y.position <- max(plot.data$freq)
 
+word.list <- word.list[word.list %in% unique(plot.data$word)]
+legend.color <- word.color[order(word.list)]
+
 p <- plot.data %>%
   ggplot(., aes(x=as.Date(date), y=freq, group=word, color=sent, shape=word)) + 
   geom_point(size=2) +
@@ -34,7 +37,7 @@ p <- plot.data %>%
         legend.text=element_text(size=rel(1.5), margin = margin(r=10))) + 
   labs(title = title,caption = "Copyright: SNU IIS Global Data Center") + 
   guides(color = FALSE,
-         shape = guide_legend(override.aes = list(color = word.color[order(word.list)])))+
+         shape = guide_legend(override.aes = list(color = legend.color)))+
   geom_vline(xintercept= as.Date("2019-02-27"), linetype="dotted", colour ="blue")+
   geom_vline(xintercept= as.Date("2018-11-06"), linetype="dotted", colour ="red")+
   annotate("text", x = as.Date("2019-03-02"), y = y.position, angle=270, size = 3, 
