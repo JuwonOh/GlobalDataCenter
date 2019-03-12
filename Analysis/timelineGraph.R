@@ -22,7 +22,9 @@ plot.data <- plot.data %>%
   mutate(date = paste0(year, "-" ,month,"-01"))
 y.position <- max(plot.data$freq)
 
-word.list <- word.list[word.list %in% unique(plot.data$word)]
+filtered <- word.list %in% unique(plot.data$word)
+word.list <- word.list[filtered]
+word.color <- word.color[filtered]
 legend.color <- word.color[order(word.list)]
 
 p <- plot.data %>%
@@ -53,3 +55,4 @@ dev.off()
 png(file=paste0(file.name, "_", paste0(word.list, collapse = "_"), ".png"), family="sans", width = 205, height = 205, units='mm', res = 150)
 print(p)
 dev.off()
+

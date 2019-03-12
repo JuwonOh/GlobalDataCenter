@@ -49,43 +49,78 @@ df.bigram$date <- as.Date(paste(df.bigram$date,"-01",sep=""))
 #########################
 ## plot
 #########################
-## leaders
-word.list <- c("moonjaein", "jinping", "abe", "kimjongun")
-word.sentiment <- c("neutral","neutral","neutral","neutral")
+## iran venezuela
+word.list <- c("iran", "venezuela")
+word.sentiment <- c("neutral","neutral")
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
-
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  
 }else{
-    source("timelineGraph.R")
+  source("timelineGraph.R")
 }
 
-## iran is outstanding!
-word.list <- c("venezuela", "iran", "libya", "iraq")
-word.sentiment <- c("neutral","neutral","neutral","neutral")
+## small deal
+word.list <- c("peace talk", "peace process", "sanction lift", "economic assistance",
+               "plutonium", "nuclear test")
+word.sentiment <- c("positive","positive","positive","positive",
+                    "negative","negative")
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
-
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  
 }else{
-    source("timelineGraph.R")
+  source("timelineGraph.R")
 }
 
-## nuclear weapons is outstanding!
-word.list <- c("denuclearization", "missile", "uranium", "plutonium")
-word.sentiment <- c("positive","negative","negative","negative")
+## 높아지는 미국의 요구
+word.list <- c("missile", "rocket", "hidden site", "appeasement",
+               "chemical weapon", "human right", "sunset clause")
+word.sentiment <- c("negative","negative","negative","neutral",
+                    "negative","negative","neutral")
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
-
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  
 }else{
-    source("timelineGraph.R")
+  source("timelineGraph.R")
 }
 
 
-## nuclear site
-word.list <- c("yongbyon", "sino", "hidden site", "ballistic missile")
-word.sentiment <- c("negative","negative","negative","negative")
-if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
-
-}else{
-    source("timelineGraph.R")
-}
+# ## leaders
+# word.list <- c("moonjaein", "jinping", "abe", "kimjongun")
+# word.sentiment <- c("neutral","neutral","neutral","neutral")
+# if(Sys.getenv("LOGNAME") == "park"){
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+# 
+# }else{
+#     source("timelineGraph.R")
+# }
+# 
+# ## iran is outstanding!
+# word.list <- c("venezuela", "iran", "libya", "iraq")
+# word.sentiment <- c("neutral","neutral","neutral","neutral")
+# if(Sys.getenv("LOGNAME") == "park"){
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+# 
+# }else{
+#     source("timelineGraph.R")
+# }
+# 
+# ## nuclear weapons is outstanding!
+# word.list <- c("denuclearization", "missile", "uranium", "plutonium")
+# word.sentiment <- c("positive","negative","negative","negative")
+# if(Sys.getenv("LOGNAME") == "park"){
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+# 
+# }else{
+#     source("timelineGraph.R")
+# }
+# 
+# 
+# ## nuclear site
+# word.list <- c("yongbyon", "sino", "hidden site", "ballistic missile")
+# word.sentiment <- c("negative","negative","negative","negative")
+# if(Sys.getenv("LOGNAME") == "park"){
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+# 
+# }else{
+#     source("timelineGraph.R")
+# }
