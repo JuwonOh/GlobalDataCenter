@@ -83,6 +83,29 @@ if(Sys.getenv("LOGNAME") == "park"){
   source("timelineGraph.R")
 }
 
+## Political Economy - unigram
+word.list <- c("trade", "energy", "market", "china",
+               "tariff", "huawe")
+word.sentiment <- c("neutral","neutral","neutral","negative",
+                    "negative","negative")
+if(Sys.getenv("LOGNAME") == "park"){
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  
+}else{
+  source("timelineGraph.R")
+}
+
+## Political Economy - bigram
+word.list <- c("economic freedom", "free trade", "international norms", "price energy",
+               "indo pacific", "midterm elections")
+word.sentiment <- c("positive","positive","positive","negative",
+                    "negative","negative")
+if(Sys.getenv("LOGNAME") == "park"){
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  
+}else{
+  source("timelineGraph.R")
+}
 
 # ## leaders
 # word.list <- c("moonjaein", "jinping", "abe", "kimjongun")
