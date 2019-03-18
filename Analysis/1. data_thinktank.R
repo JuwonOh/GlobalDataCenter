@@ -18,7 +18,7 @@ thinktank_data <- data.frame(id = integer(),
 for (i in 1:length(folders_list)) {
   files_loc <- folders_list[i]
   files_list <- list.files(path = files_loc, pattern="*.json")
-  if (sources[i]!="stimson") {
+  if (!sources[i]%in%c("stimson","csis")) {
     data <- files_list %>%
       map_df(~fromJSON(file.path(files_loc, .), flatten = TRUE)) %>%
       mutate(id = row_number()) %>%
