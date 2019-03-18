@@ -10,7 +10,7 @@ setwd("~/Dropbox/BigDataDiplomacy/Data/2019/goverment")
 
 folders_list <- list.files(pattern="*_output")
 sources <- gsub("_output","",folders_list)
-goverment_data <- data.frame(id = integer(),
+government_data <- data.frame(id = integer(),
                              key = character(),
                              value = character(),
                              source = character())
@@ -22,12 +22,12 @@ for (i in 1:length(folders_list)) {
       mutate(id = row_number()) %>%
       gather("key","value",-id) %>%
       mutate(source = sources[i])
-    goverment_data <- rbind(goverment_data, data)
+    government_data <- rbind(government_data, data)
 }
 
 
-unique(goverment_data$key)
-goverment_data$key <- recode(goverment_data$key, 
+unique(government_data$key)
+government_data$key <- recode(government_data$key, 
                              # headline = "title",
                              # content_url = "url",
                              time = "date",
@@ -35,25 +35,25 @@ goverment_data$key <- recode(goverment_data$key,
                              tag = "category_tag",
                              abstract = "summary",
                              timestamp = "date")
-unique(goverment_data$key)
+unique(government_data$key)
 
 # crs: pdf
-unique(goverment_data$source)
+unique(government_data$source)
 
-goverment_data <- goverment_data %>%
+government_data <- government_data %>%
   arrange(key, id, source)
 
 
 # synchronize date format
-for (i in 1:nrow(goverment_data)) {
-  if (goverment_data$key[i]=="date") {
-    goverment_data$value[i] <- format(as.Date(goverment_data$value[i], tryFormats=c("%Y-%m-%d", "%Y-%m-%d 00:00:00", "%m/%d/%Y", "%B %d, %Y")))
+for (i in 1:nrow(government_data)) {
+  if (government_data$key[i]=="date") {
+    government_data$value[i] <- format(as.Date(government_data$value[i], tryFormats=c("%Y-%m-%d", "%Y-%m-%d 00:00:00", "%m/%d/%Y", "%B %d, %Y")))
   }
   # cat(i,"\n")
 }
 
 # create year, month, day columns & make it tidy
-goverment_tidy <- goverment_data  %>% 
+government_tidy <- government_data  %>% 
   spread(key="key", value="value") %>%
   mutate(year = format(as.Date(date), "%Y"),
          month = format(as.Date(date), "%m"),
@@ -62,30 +62,30 @@ goverment_tidy <- goverment_data  %>%
   filter(!is.na(value)) %>%
   arrange(source, id, key)
 
-goverment_data <- goverment_tidy %>% 
+government_data <- government_tidy %>% 
   spread(key="key", value="value") %>%
   arrange(source, id) %>%
   mutate(id_row = row_number(), date = as.Date(date)) 
 
 # "korea" related
-goverment_data <- goverment_data[str_detect(paste0(goverment_data$content, goverment_data$title), "(?i)korea"),]
+government_data <- government_data[str_detect(paste0(government_data$content, government_data$title), "(?i)korea"),]
 
-save(goverment_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/goverment_tidy.RData")
+save(government_tidy, file="~/Dropbox/GlobalDataCenter/Analysis/government_tidy.RData")
 
 ### preprocess
 source("~/Dropbox/GlobalDataCenter/Analysis/preprocess_functions.R")
 
 ## NA -> ""
-goverment_data$content[is.na(goverment_data$content)] <- ""
-goverment_data$title[is.na(goverment_data$title)] <- ""
+government_data$content[is.na(government_data$content)] <- ""
+government_data$title[is.na(government_data$title)] <- ""
 
-goverment_data <- goverment_data %>% mutate(text_raw = paste(content, title)) 
+government_data <- government_data %>% mutate(text_raw = paste(content, title)) 
 
-goverment_data$text = prep_fun(goverment_data$text_raw)
-goverment_data$text = prep_fun2(goverment_data$text)
+government_data$text = prep_fun(government_data$text_raw)
+government_data$text = prep_fun2(government_data$text)
 
 ## "" -> NA
-goverment_data$content[goverment_data$content==""] <- NA
-goverment_data$title[goverment_data$title==""] <- NA
+government_data$content[government_data$content==""] <- NA
+government_data$title[government_data$title==""] <- NA
 
-save(goverment_data, file="~/Dropbox/GlobalDataCenter/Analysis/government_data.RData")
+save(government_data, file="~/Dropbox/GlobalDataCenter/Analysis/government_data.RData")
