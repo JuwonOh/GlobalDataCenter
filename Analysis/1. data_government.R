@@ -88,4 +88,4 @@ goverment_data$text = prep_fun2(goverment_data$text)
 goverment_data$content[goverment_data$content==""] <- NA
 goverment_data$title[goverment_data$title==""] <- NA
 
-save(goverment_data, file="~/Dropbox/GlobalDataCenter/Analysis/goverment_data.RData")
+save(goverment_data, file="~/Dropbox/GlobalDataCenter/Analysis/government_data.RData")
