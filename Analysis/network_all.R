@@ -40,10 +40,10 @@ cut.point = 50
 
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution_jhp.R")
 
 }else{
-    source("network_execution.R")
+    source("network_execution_jhp.R")
 }
 
 #########################
@@ -56,10 +56,10 @@ input = "Thinktank"
 
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution_jhp.R")
 
 }else{
-    source("network_execution.R")
+    source("network_execution_jhp.R")
 }
 
 #########################
@@ -73,10 +73,10 @@ input = "Government"
 
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution_jhp.R")
 
 }else{
-    source("network_execution.R")
+    source("network_execution_jhp.R")
 }
 
 #########################
@@ -90,8 +90,8 @@ input = "Reddit"
 
 ## network_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution_jhp.R")
 
 }else{
-    source("network_execution.R")
+    source("network_execution_jhp.R")
 }

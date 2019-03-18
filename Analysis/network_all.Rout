@@ -20,13 +20,13 @@ Type 'q()' to quit R.
 [Previously saved workspace restored]
 
 
-Successfully loaded .Rprofile at Mon Mar 11 13:42:26 2019 
+Successfully loaded .Rprofile at Mon Mar 18 22:24:27 2019 
 R > #########################
 R > ## SNU Global Data Center
 R > ## 2019 March
 R > ## Sooahn Shin & JONG HEE PARK
 R > #########################
-R > rm(list=ls())
+R > rm(list=ls()) 
 R > 
 R > #########################
 R > ## package loading
@@ -53,7 +53,7 @@ package ‘SnowballC’ was built under R version 3.5.2
 R > library(udpipe)
 R > library(lattice)
 R > library(wesanderson)
-R > library(ggraph)
+R > library(ggraph) 
 R > 
 R > #########################
 R > ## user specific working directory setup
@@ -79,138 +79,9 @@ R > cut.point = 50
 R > 
 R > ## network_execution
 R > if(Sys.getenv("LOGNAME") == "park"){
-+     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
++     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution_jhp.R")
 + 
 + }else{
-+     source("network_execution.R")
++     source("network_execution_jhp.R")
 + }
 udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-R > 
-R > #########################
-R > ## Data 2
-R > #########################
-R > load("thinktank_data.RData")
-R > input_data <- thinktank_data
-R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/thinktank"
-R > input = "Thinktank"
-R > 
-R > ## network_execution
-R > if(Sys.getenv("LOGNAME") == "park"){
-+     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
-+ 
-+ }else{
-+     source("network_execution.R")
-+ }
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-There were 50 or more warnings (use warnings() to see the first 50)
-R > 
-R > #########################
-R > ## Data 3
-R > #########################
-R > load("government_data.RData")
-R > input_data <- goverment_data
-R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/government"
-R > input = "Government"
-R > 
-R > 
-R > ## network_execution
-R > if(Sys.getenv("LOGNAME") == "park"){
-+     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
-+ 
-+ }else{
-+     source("network_execution.R")
-+ }
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-R > 
-R > #########################
-R > ## Data 4
-R > #########################
-R > load("reddit_data.RData")
-R > file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/keyword_network/reddit"
-R > subtitle = "2018.7 - 2019.3"
-R > input_data <- reddit_data
-R > input = "Reddit"
-R > 
-R > ## network_execution
-R > if(Sys.getenv("LOGNAME") == "park"){
-+     source("~/Github/Sooahn/GlobalDataCenter/Analysis/network_execution.R")
-+ 
-+ }else{
-+     source("network_execution.R")
-+ }
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-udpipe annotate finished!
-udpipe annotate start!
-Error in udpipe_annotate(udmodel_english, input) : 
-  length(x) == length(doc_id) is not TRUE
-Calls: source ... eval -> coocurrence_data -> udpipe_annotate -> stopifnot
-Execution halted
