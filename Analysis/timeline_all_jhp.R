@@ -43,10 +43,10 @@ input = "News"
 
 ## timeline_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution_jhp.R")
 
 }else{
-    source("timeline_execution.R")
+    source("timeline_execution_jhp.R")
 }
 #########################
 ## Data 2
@@ -60,10 +60,10 @@ input = "Government"
 
 ## timeline_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution_jhp.R")
 
 }else{
-    source("timeline_execution.R")
+    source("timeline_execution_jhp.R")
 }
 #########################
 ## Data 3
@@ -77,10 +77,10 @@ input = "Thinktank"
 
 ## timeline_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution_jhp.R")
 
 }else{
-    source("timeline_execution.R")
+    source("timeline_execution_jhp.R")
 }
 
 #########################
@@ -96,8 +96,8 @@ input = "Reddit"
 
 ## timeline_execution
 if(Sys.getenv("LOGNAME") == "park"){
-    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution.R")
+    source("~/Github/Sooahn/GlobalDataCenter/Analysis/timeline_execution_jhp.R")
 
 }else{
-    source("timeline_execution.R")
+    source("timeline_execution_jhp.R")
 }

@@ -51,12 +51,12 @@ df.bigram$date <- as.Date(paste(df.bigram$date,"-01",sep=""))
 #########################
 ## iran venezuela
 word.list <- c("iran", "venezuela", "northkorea")
-word.sentiment <- c("positive","neutral", "negative")
+word.sentiment <- NA
 if(Sys.getenv("LOGNAME") == "park"){
-  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
   
 }else{
-  source("timelineGraph.R")
+  source("timelineGraph_jhp.R")
 }
 
 ## security
@@ -65,10 +65,10 @@ word.list <- c("peace", "assistance", ## "appease",
 word.sentiment <- c("positive","positive", ## "positive",
                     "negative","negative","negative")
 if(Sys.getenv("LOGNAME") == "park"){
-  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
   
 }else{
-  source("timelineGraph.R")
+  source("timelineGraph_jhp.R")
 }
 
 
@@ -79,10 +79,10 @@ word.sentiment <- NA
 ## word.sentiment <- c("positive","positive", "positive",
 ##                     "neutral", "neutral", "neutral")
 if(Sys.getenv("LOGNAME") == "park"){
-  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
   
 }else{
-  source("timelineGraph.R")
+  source("timelineGraph_jhp.R")
 }
 ## economy
 word.list <- c("indo pacific", "energy", "protection", 
@@ -91,10 +91,10 @@ word.sentiment <- NA
 ## word.sentiment <- c("positive","positive", "positive",
 ##                     "neutral", "neutral", "neutral")
 if(Sys.getenv("LOGNAME") == "park"){
-  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+  source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
   
 }else{
-  source("timelineGraph.R")
+  source("timelineGraph_jhp.R")
 }
 
 
@@ -105,10 +105,10 @@ if(Sys.getenv("LOGNAME") == "park"){
 ## word.sentiment <- c("negative","negative","negative","neutral",
 ##                     "negative","negative","neutral")
 ## if(Sys.getenv("LOGNAME") == "park"){
-##   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+##   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
 ##   
 ## }else{
-##   source("timelineGraph.R")
+##   source("timelineGraph_jhp.R")
 ## }
 
 ## small deal
@@ -117,10 +117,10 @@ if(Sys.getenv("LOGNAME") == "park"){
 ## word.sentiment <- c("positive","positive","positive","positive",
 ##                     "negative","negative")
 ## if(Sys.getenv("LOGNAME") == "park"){
-##   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+##   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
 ##   
 ## }else{
-##   source("timelineGraph.R")
+##   source("timelineGraph_jhp.R")
 ## }
 
 ## 높아지는 미국의 요구
@@ -129,10 +129,10 @@ if(Sys.getenv("LOGNAME") == "park"){
 ## word.sentiment <- c("negative","negative","negative","neutral",
 ##                     "negative","negative","neutral")
 ## if(Sys.getenv("LOGNAME") == "park"){
-##   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+##   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
   
 ## }else{
-##   source("timelineGraph.R")
+##   source("timelineGraph_jhp.R")
 ## }
 
 
@@ -140,30 +140,30 @@ if(Sys.getenv("LOGNAME") == "park"){
 # word.list <- c("moonjaein", "jinping", "abe", "kimjongun")
 # word.sentiment <- c("neutral","neutral","neutral","neutral")
 # if(Sys.getenv("LOGNAME") == "park"){
-#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
 # 
 # }else{
-#     source("timelineGraph.R")
+#     source("timelineGraph_jhp.R")
 # }
 # 
 # ## iran is outstanding!
 # word.list <- c("venezuela", "iran", "libya", "iraq")
 # word.sentiment <- c("neutral","neutral","neutral","neutral")
 # if(Sys.getenv("LOGNAME") == "park"){
-#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
 # 
 # }else{
-#     source("timelineGraph.R")
+#     source("timelineGraph_jhp.R")
 # }
 # 
 # ## nuclear weapons is outstanding!
 # word.list <- c("denuclearization", "missile", "uranium", "plutonium")
 # word.sentiment <- c("positive","negative","negative","negative")
 # if(Sys.getenv("LOGNAME") == "park"){
-#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
 # 
 # }else{
-#     source("timelineGraph.R")
+#     source("timelineGraph_jhp.R")
 # }
 # 
 # 
@@ -171,8 +171,8 @@ if(Sys.getenv("LOGNAME") == "park"){
 # word.list <- c("yongbyon", "sino", "hidden site", "ballistic missile")
 # word.sentiment <- c("negative","negative","negative","negative")
 # if(Sys.getenv("LOGNAME") == "park"){
-#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph.R")
+#     source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
 # 
 # }else{
-#     source("timelineGraph.R")
+#     source("timelineGraph_jhp.R")
 # }

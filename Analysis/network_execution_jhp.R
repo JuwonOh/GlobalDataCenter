@@ -58,7 +58,7 @@ cooc_data <- coocurrence_data(input_data$title_prep[is.element(input_data$month,
 row.weird.character.finder <- grepl("^[[:alnum:]]+$", cooc_data[,1])&grepl("^[[:alnum:]]+$", cooc_data[,2])
 cooc_data <- cooc_data[row.weird.character.finder, ]
 gg <- network_graph(cooc_data, cut.point = cut.point,  layout = "nicely", 
-                    title = paste0("Cooccurrence network in ", input, " before the mid-term election"), 
+                    title = paste0(input, " before the mid-term election"), 
                     default.text.size = 3,
                     default.node.size= 5)
 pdf(file=paste0(file.name, "_network_preelection.pdf"),
@@ -75,7 +75,7 @@ cooc_data <- coocurrence_data(input_data$title_prep[is.element(input_data$month,
 row.weird.character.finder <- grepl("^[[:alnum:]]+$", cooc_data[,1])&grepl("^[[:alnum:]]+$", cooc_data[,2])
 cooc_data <- cooc_data[row.weird.character.finder, ]
 gg <- network_graph(cooc_data, cut.point = cut.point, layout = "nicely", 
-                    title = paste0("Cooccurrence network in ", input, " after the mid-term election"), 
+                    title = paste0(input, " after the mid-term election"), 
                     default.text.size = 3,
                     default.node.size= 5)
 pdf(file=paste0(file.name, "_network_postelection.pdf"),

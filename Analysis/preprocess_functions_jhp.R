@@ -86,7 +86,7 @@ network_graph <- function(cooc_data,
 
     wordnetwork2 <- igraph::graph_from_data_frame(wordnetwork, vertices = vert)
     plot <- ggraph(wordnetwork2, layout = layout) +
-        geom_edge_link(edge_alpha = 1, 
+        geom_edge_link(edge_alpha = 0.5, 
                        edge_colour = edge.col)  +
         geom_node_text(aes(label = name), col = text.col, size = 4*vert$size/max(vert$size) +
                                                               default.text.size) +
