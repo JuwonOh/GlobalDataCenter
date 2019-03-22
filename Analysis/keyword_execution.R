@@ -122,7 +122,7 @@ sumstat.list <-
 sumstat.list <- lapply(1:length(time.stamp), function(t){sumstat.list[[t]][1: cut.point, ]})
 dt <- Reduce(cbind, sumstat.list)
 colnames(dt) <- unlist(lapply(1:length(time.stamp), function(t){c(paste0(time.stamp[t], " : Word"),"Freq")}))
-kable(dt, caption = title) %>% kable_styling(font_size = 12, full_width=FALSE) %>%
+kable(dt, caption = title, digits=0) %>% kable_styling(font_size = 12, full_width=FALSE) %>%
     save_kable(file = paste0(file.name, "_unigram_absolute.html"), self_contained = T)
 ## write.table(sumstat, file = "sumstats.txt", sep = ",", quote = FALSE, row.names = F)
 
@@ -179,7 +179,7 @@ sumstat.list <-
 sumstat.list <- lapply(1:length(time.stamp), function(t){sumstat.list[[t]][1: cut.point, ]})
 dt <- Reduce(cbind, sumstat.list)
 colnames(dt) <- unlist(lapply(1:length(time.stamp), function(t){c(paste0(time.stamp[t], " : Word"),"Freq")}))
-kable(dt, caption = title, digits=0) %>% kable_styling(font_size = 12, full_width=FALSE) %>%
+kable(dt, caption = title, digits=2) %>% kable_styling(font_size = 12, full_width=FALSE) %>%
     save_kable(file = paste0(file.name, "_unigram_relative.html"), self_contained = T)
 
 ## plot
@@ -236,7 +236,7 @@ sumstat.list <-
 sumstat.list <- lapply(1:length(time.stamp), function(t){sumstat.list[[t]][1: cut.point, ]})
 dt <- Reduce(cbind, sumstat.list)
 colnames(dt) <- unlist(lapply(1:length(time.stamp), function(t){c(paste0(time.stamp[t], " : Word"),"Freq")}))
-kable(dt, caption = title, digits=2) %>% kable_styling(font_size = 10, full_width=FALSE) %>%
+kable(dt, caption = title, digits=0) %>% kable_styling(font_size = 10, full_width=FALSE) %>%
     save_kable(file = paste0(file.name, "_biigram_absolute.html"), self_contained = T)
 
 p1 <- ggplot(pd, aes(order, n_month, fill = factor(month))) +

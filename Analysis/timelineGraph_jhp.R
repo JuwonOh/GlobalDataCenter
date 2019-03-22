@@ -10,7 +10,7 @@ if(!is.na(word.sentiment)[1]){
             mutate(word = word.list[i], sent = factor(word.sentiment[i], levels = c("negative","neutral","positive")))
     }
     
-    myColors <- c("#F8766D","black","#00BFC4")
+    myColors <- c("red","black","navy")
     names(myColors) <- c("negative","neutral","positive")
     
     plot.data <- do.call(rbind, plot.data)
@@ -27,16 +27,16 @@ if(!is.na(word.sentiment)[1]){
     word.color <- word.color[filtered]
     legend.color <- word.color[order(word.list)]
     
-    ## reorder by sentiment
-    plot.data$word.factor <- factor(plot.data$word)
+    ## reorder by sentiment ## word list should be ordered by sentiment (pos - neg)
+    word.factor0 <- factor(plot.data$word , levels = word.list)
     
-    plot.data$word.factor <- factor(plot.data$word.factor, levels(plot.data$word.factor)[rank(jitter(rank(word.sentiment)))])
+    plot.data$word.factor <- word.factor0 ## , levels(plot.data$word.factor)[rank(jitter(rank(word.sentiment)))])
     
     
     p <- plot.data %>%
-        ggplot(., aes(x=as.Date(date), y=freq, group=word, color=sent, alpha=word.factor)) + 
+        ggplot(., aes(x=as.Date(date), y=freq, group=word.factor, color=sent, alpha=word.factor)) + 
         geom_point(size=5) +
-        geom_line(size=1, alpha=0.6) +
+        geom_line(size=1, alpha=0.8) +
         scale_color_manual(values=myColors) +
         scale_x_date(date_breaks = "1 month",date_minor_breaks = "1 day", date_labels = "%Y-%m") + 
         xlab("Month") + ylab("Absolute Frequency") +
@@ -77,9 +77,9 @@ if(!is.na(word.sentiment)[1]){
     ## reorder by sentiment
      
     p <- plot.data %>%
-        ggplot(., aes(x=as.Date(date), y=freq, group=word, color=word, alpha=word)) + 
+        ggplot(., aes(x=as.Date(date), y=freq, group=word, color=word)) + 
         geom_point(size=5) +
-        geom_line(size=1, alpha=0.6) +
+        geom_line(size=1, alpha=0.8) +
         scale_color_manual(values=word.color) +
         scale_x_date(date_breaks = "1 month",date_minor_breaks = "1 day", date_labels = "%Y-%m") + 
         xlab("Month") + ylab("Absolute Frequency") +
@@ -101,9 +101,9 @@ if(!is.na(word.sentiment)[1]){
 
 
 
-pdf(file=paste0(file.name, "_", paste0(word.list, collapse = "_"), ".pdf"), family="sans", width = 12, height = 7)
-print(p)
-dev.off()
+## pdf(file=paste0(file.name, "_", paste0(word.list, collapse = "_"), ".pdf"), family="sans", width = 12, height = 7)
+## print(p)
+## dev.off()
 png(file=paste0(file.name, "_", paste0(word.list, collapse = "_"), ".png"), family="sans", width = 205, height = 105, units='mm', res = 300)
 print(p)
 dev.off()
