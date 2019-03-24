@@ -62,8 +62,9 @@ if(Sys.getenv("LOGNAME") == "park"){
 ## security
 word.list <- c("peace", "assistance", ## "appease", 
                "weapon", "missile", "rocket")
-word.sentiment <- c("positive","positive", ## "positive",
-                    "negative","negative","negative")
+word.sentiment <- NA
+
+## word.sentiment <- c("positive","positive", ## "positive", "negative","negative","negative")
 if(Sys.getenv("LOGNAME") == "park"){
   source("~/Github/Sooahn/GlobalDataCenter/Analysis/timelineGraph_jhp.R")
   

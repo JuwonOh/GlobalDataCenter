@@ -87,7 +87,7 @@ if(Sys.getenv("LOGNAME") == "park"){
 ## Data 3
 #########################
 load("government_data.RData")
-input_data <- goverment_data
+input_data <- government_data
 file.name <- "~/Dropbox/BigDataDiplomacy/보고서/2019/plots/frequency/government"
 input = "Government"
 
