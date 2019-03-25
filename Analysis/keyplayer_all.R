@@ -15,6 +15,7 @@ library(ggraph)
 library(igraph)
 library(ggnet)
 require(sna)
+library(kableExtra)
 
 #########################
 ## user specific working directory setup
@@ -28,7 +29,7 @@ if(Sys.getenv("LOGNAME") == "park"){
     source("preprocess_functions.R")
 }
 time.stamp <- c(paste0("2018-", 7:12), paste0("2019-", 1:3))
-cut.point = 100 ## top 50 players only
+cut.point = 50 ## top 50 players only
 
 #########################
 ## Data 1

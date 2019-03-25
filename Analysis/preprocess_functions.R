@@ -85,13 +85,13 @@ network_graph <- function(cooc_data,
                        size = as.vector(table(c(wordnetwork$term1, wordnetwork$term2))))
 
     wordnetwork2 <- igraph::graph_from_data_frame(wordnetwork, vertices = vert)
-    plot <- ggraph(wordnetwork2, layout = "fr") +
-        geom_edge_link(aes(edge_alpha = cooc), 
+    plot <- ggraph(wordnetwork2, layout = layout) +
+        geom_edge_link(edge_alpha = 0.5, 
                        edge_colour = edge.col)  +
         geom_node_text(aes(label = name), col = text.col, size = 4*vert$size/max(vert$size) +
                                                               default.text.size) +
         geom_node_point(size = 7*vert$size/max(vert$size) + default.node.size, col= "royalblue",
-                        alpha=0.2) +
+                        alpha=0.5) +
         scale_size(range = c(4, 60), guide = 'none') + 
         theme_graph(base_family = "sans") +
         theme(legend.position = "none") +
